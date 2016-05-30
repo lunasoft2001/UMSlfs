@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lieferschein UMS</string>
+    <string name="textoUltimoAlbaran">Letzte Lieferschein:</string>
+    <string name="botonClientes">Kundeliste</string>
+</resources>

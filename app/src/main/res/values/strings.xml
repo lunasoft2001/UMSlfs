@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Albaranes UMS</string>
+    <string name="textoUltimoAlbaran">Último albarán:</string>
+    <string name="botonClientes">Lista Clientes</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="nombre_trabajador">Nombre Trabajador</string>
+    <string name="id_trabajador">ID Trabajador</string>
+    <string name="registro_del_trabajador">REGISTRO DEL TRABAJADOR</string>
+    <string name="datos_trabajador">Datos Trabajador</string>
+</resources>
