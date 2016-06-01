@@ -125,5 +125,48 @@ public class OperacionesBaseDatos {
     }
 
 
+    public Cursor obtenerCabeceraAlbaran(String codigoAlbaran){
+        leer();
+
+        String sql = "SELECT cabecera_albaranes.codigoAlbaran, " +
+                "cabecera_albaranes.fecha, clientes.nombre " +
+                "FROM clientes INNER JOIN cabecera_albaranes " +
+                "ON clientes.id = cabecera_albaranes.idCliente " +
+                "WHERE cabecera_albaranes.codigoAlbaran =?";
+        String[] selectionArgs = {codigoAlbaran};
+
+        return db.rawQuery(sql,selectionArgs);
+
+    }
+
+    public CabeceraAlbaranes obtenerCabeceraAlbaran1(String codigoAlbaran){
+        leer();
+
+        String sql = "SELECT cabecera_albaranes.codigoAlbaran, " +
+                "cabecera_albaranes.fecha, clientes.nombre, " +
+                "cabecera_albaranes.idCliente, " +
+                "clientes.direccion, " +
+                "clientes.email " +
+                "FROM clientes INNER JOIN cabecera_albaranes " +
+                "ON clientes.id = cabecera_albaranes.idCliente " +
+                "WHERE cabecera_albaranes.codigoAlbaran =?";
+        String[] selectionArgs = {codigoAlbaran};
+
+        Cursor c = db.rawQuery(sql,selectionArgs);
+
+        CabeceraAlbaranes albaran = new CabeceraAlbaranes();
+
+        c.moveToFirst();
+
+        albaran.setCodigoAlbaran(c.getString(c.getColumnIndex("codigoAlbaran")));
+        albaran.setFecha(c.getString(c.getColumnIndex("fecha")));
+        albaran.setNombreCliente(c.getString(c.getColumnIndex("nombre")));
+        albaran.setIdCliente(c.getInt(c.getColumnIndex("idCliente")));
+
+
+        return albaran;
+
+    }
+
 
 }

@@ -58,7 +58,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:maxLength="8"
-            android:hint="Id Cliente"/>
+            android:hint="@string/id_cliente"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
-            android:hint="Nombre Cliente"/>
+            android:hint="@string/nombre_cliente"/>
 
     </android.support.design.widget.TextInputLayout>
 

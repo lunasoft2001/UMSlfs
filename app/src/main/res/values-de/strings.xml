@@ -15,5 +15,9 @@
     <string name="id_cliente">Id Kunde</string>
     <string name="nombre_cliente">Kundename</string>
     <string name="direccion_cliente">Kunde Adresse</string>
+    <string name="CONTENIDOS">KONTENT</string>
+    <string name="IMAGEN">PHOTO</string>
+    <string name="FIRMA">SIGNATURE</string>
 
 </resources>
+
