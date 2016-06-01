@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="external_dir">UMSlieferschein</string>
+
     <string name="app_name">Albaranes UMS</string>
     <string name="textoUltimoAlbaran">Último albarán:</string>
     <string name="botonClientes">Lista Clientes</string>
