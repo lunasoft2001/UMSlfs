@@ -7,4 +7,12 @@
     <string name="id_trabajador">ID Trabajador</string>
     <string name="registro_del_trabajador">REGISTRO DEL TRABAJADOR</string>
     <string name="datos_trabajador">Datos Trabajador</string>
+    <string name="albaranes">Albaranes</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fecha">fecha</string>
+    <string name="id_cliente">Id Cliente</string>
+    <string name="nombre_cliente">Nombre Cliente</string>
+    <string name="direccion_cliente">Direccion Cliente</string>
 </resources>

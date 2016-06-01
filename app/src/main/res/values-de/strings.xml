@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">Lieferschein UMS</string>
     <string name="textoUltimoAlbaran">Letzte Lieferschein:</string>
-    <string name="botonClientes">Kundeliste</string>
+    <string name="botonClientes">Kundenliste</string>
+    <string name="fecha">Datum</string>
+    <string name="actualizar">Aktualizieren</string>
+    <string name="nombre_trabajador">Name Mitarbeiter </string>
+    <string name="id_trabajador">ID Mitarbeiter</string>
+    <string name="registro_del_trabajador">MITARBEITER ANMELDUNG</string>
+    <string name="datos_trabajador">Mitarbeiter Info</string>
+    <string name="albaranes">Lieferscheine</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="id_cliente">Id Kunde</string>
+    <string name="nombre_cliente">Kundename</string>
+    <string name="direccion_cliente">Kunde Adresse</string>
+
 </resources>

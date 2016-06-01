@@ -19,6 +19,12 @@
         </activity>
         <activity android:name=".actividades.FormularioTrabajador">
         </activity>
+        <activity android:name=".actividades.ListaClientes">
+        </activity>
+        <activity android:name=".actividades.ListaAlbaranesCabecera">
+        </activity>
+        <activity android:name=".actividades.FormularioAlbaranesCabecera">
+        </activity>
     </application>
 
 </manifest>

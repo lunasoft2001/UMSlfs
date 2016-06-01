@@ -1,5 +1,8 @@
 package at.ums.luna.umslfs.modelos;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -8,26 +11,37 @@ import java.util.Date;
 public class CabeceraAlbaranes {
 
     private int id;
-    private Date fecha;
+    private String fecha;
     private int idCliente;
     private String idTrabajador;
     private String imagen;
     private String firma;
     private String codigoAlbaran;
 
-    public CabeceraAlbaranes(int id, Date fecha, int idCliente, String idTrabajador, String imagen,
-                         String firma, String codigoAlbaran){
-    this.id = id;
-    this.fecha = fecha;
-    this.idCliente = idCliente;
-    this.idTrabajador = idTrabajador;
-    this.imagen = imagen;
-    this.firma = firma;
-    this.codigoAlbaran = codigoAlbaran;
+    private String nombreCliente;
+
+    public CabeceraAlbaranes(int id, String fecha, int idCliente, String idTrabajador, String imagen,
+                         String firma, String codigoAlbaran, String nombreCliente){
+        this.id = id;
+        this.fecha = fecha;
+        this.idCliente = idCliente;
+        this.idTrabajador = idTrabajador;
+        this.imagen = imagen;
+        this.firma = firma;
+        this.codigoAlbaran = codigoAlbaran;
+        this.nombreCliente = nombreCliente;
     }
 
     public  CabeceraAlbaranes(){
 
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
     public int getId() {
@@ -38,12 +52,31 @@ public class CabeceraAlbaranes {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
+
         this.fecha = fecha;
+    }
+
+    public String getFechaFormateada() {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyy-MM-dd");
+        String fechaFormateada;
+
+
+        try {
+            Date date = fmt.parse(fecha);
+
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd.MM.yyyy");
+            fechaFormateada = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            fechaFormateada = "Error de conversion";
+        }
+        return fechaFormateada;
+
     }
 
     public int getIdCliente() {

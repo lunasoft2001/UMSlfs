@@ -14,6 +14,8 @@ import java.util.List;
 
 import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.actividades.FormularioTrabajador;
+import at.ums.luna.umslfs.actividades.ListaAlbaranesCabecera;
+import at.ums.luna.umslfs.actividades.ListaClientes;
 import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
 import at.ums.luna.umslfs.modelos.Trabajador;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         nombreTrabajador.setText(nombreTrabajadorActual);
 
-        if (idTrabajadorActual.equals("DEP")){
+        if (idTrabajadorActual.equals("ßß")){
             Log.i("JUANJO", "MODO DEPURACION");
             Intent intento = new Intent(this, FormularioTrabajador.class);
 //            intento.putExtra("id", idTrabajadorActual);
@@ -77,16 +79,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void botonListaClientes(View v) {
-//        Intent intento = new Intent(this, ListaClientes.class);
-//        startActivity(intento);
+        Intent intento = new Intent(this, ListaClientes.class);
+        startActivity(intento);
 
     }
-
 
     public void botonEditarTrabajador(View v){
         Intent intento = new Intent(this, FormularioTrabajador.class);
         intento.putExtra("id", idTrabajadorActual);
         intento.putExtra("nombre", nombreTrabajadorActual);
+        startActivity(intento);
+    }
+
+    public void botonListaAlbaranes(View v){
+        Intent intento = new Intent(this, ListaAlbaranesCabecera.class);
         startActivity(intento);
     }
 

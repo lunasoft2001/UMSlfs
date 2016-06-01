@@ -72,6 +72,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:text="@string/albaranes"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:onClick="botonListaAlbaranes"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
                     android:text="@string/botonClientes"
                     android:background="@color/colorAccent"
                     android:gravity="center"

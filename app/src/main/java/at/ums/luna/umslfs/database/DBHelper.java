@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteAssetHelper{
         String TRABAJADOR = "trabajador";
     }
 
-    public interface CabeceraAlbarenesColumnas{
+    public interface CabeceraAlbaranesColumnas {
         String ID = "id";
         String FECHA = "fecha";
         String ID_CLIENTE = "idCliente";
