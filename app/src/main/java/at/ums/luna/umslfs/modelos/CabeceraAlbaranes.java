@@ -19,9 +19,12 @@ public class CabeceraAlbaranes {
     private String codigoAlbaran;
 
     private String nombreCliente;
+    private String direccionCliente;
+    private String emailCliente;
 
     public CabeceraAlbaranes(int id, String fecha, int idCliente, String idTrabajador, String imagen,
-                         String firma, String codigoAlbaran, String nombreCliente){
+                         String firma, String codigoAlbaran, String nombreCliente,
+                         String direccionCliente, String emailCliente){
         this.id = id;
         this.fecha = fecha;
         this.idCliente = idCliente;
@@ -30,10 +33,28 @@ public class CabeceraAlbaranes {
         this.firma = firma;
         this.codigoAlbaran = codigoAlbaran;
         this.nombreCliente = nombreCliente;
+        this.direccionCliente = direccionCliente;
+        this.emailCliente = emailCliente;
     }
 
     public  CabeceraAlbaranes(){
 
+    }
+
+    public String getDireccionCliente() {
+        return direccionCliente;
+    }
+
+    public void setDireccionCliente(String direccionCliente) {
+        this.direccionCliente = direccionCliente;
+    }
+
+    public String getEmailCliente() {
+        return emailCliente;
+    }
+
+    public void setEmailCliente(String emailCliente) {
+        this.emailCliente = emailCliente;
     }
 
     public String getNombreCliente() {

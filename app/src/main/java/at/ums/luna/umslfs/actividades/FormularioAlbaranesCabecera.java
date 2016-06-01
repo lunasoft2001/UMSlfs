@@ -28,37 +28,6 @@ public class FormularioAlbaranesCabecera extends FragmentActivity{
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new AdaptadorPager(getSupportFragmentManager()));
 
-
-        /*
-        Codigo para obtener los valores a utilizar en la actividad
-         */
-        String codigoAlbaran = "";
-        Intent intento = getIntent();
-        Bundle bundle = intento.getExtras();
-        if(bundle !=null){
-            codigoAlbaran = bundle.getString("codigoAlbaran");
-        }
-
-        Log.i("JUANJO", codigoAlbaran);
-        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
-        Cursor cursor = mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaran);
-        cursor.moveToFirst();
-
-
-        String fecha;
-
-        fecha = cursor.getString(cursor.getColumnIndex(DBHelper.CabeceraAlbaranesColumnas.FECHA));
-
-        Log.i("JUANJO", fecha);
-
-
-        CabeceraAlbaranes albaranActual = mOperacionesBaseDatos.obtenerCabeceraAlbaran1(codigoAlbaran);
-
-
-        String fechaCorrecta = albaranActual.getFechaFormateada().toString();
-        Log.i("JUANJO", "Fecha correcta " + fechaCorrecta);
-
-
     }
 
     private class AdaptadorPager extends FragmentPagerAdapter{
