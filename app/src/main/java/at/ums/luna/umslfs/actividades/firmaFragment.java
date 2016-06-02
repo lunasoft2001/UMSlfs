@@ -21,6 +21,8 @@ import at.ums.luna.umslfs.R;
 public class firmaFragment extends Fragment {
 
     public static final int SIGNATURE_ACTIVITY = 1;
+    public static final int RESULT_OK = -1;
+
     private Context esteContexto;
 
     public firmaFragment() {
@@ -41,7 +43,7 @@ public class firmaFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button getSignature = (Button) getView().findViewById(R.id.signature);
+        Button getSignature = (Button) getView().findViewById(R.id.botonFirma);
         getSignature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(esteContexto, CaptureSignature.class);
@@ -51,22 +53,22 @@ public class firmaFragment extends Fragment {
     }
 
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data)
-//    {
-//        switch(requestCode) {
-//            case SIGNATURE_ACTIVITY:
-//                if (resultCode == RESULT_OK) { //---->AQUI DA UN ERROR
-//
-//                    Bundle bundle = data.getExtras();
-//                    String status  = bundle.getString("status");
-//                    if(status.equalsIgnoreCase("done")){
-//                        Toast toast = Toast.makeText(esteContexto, "Signature capture successful!", Toast.LENGTH_SHORT);
-//                        toast.setGravity(Gravity.TOP, 105, 50);
-//                        toast.show();
-//                    }
-//                }
-//                break;
-//        }
-//
-//    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch(requestCode) {
+            case SIGNATURE_ACTIVITY:
+                if (resultCode == RESULT_OK) {
+
+                    Bundle bundle = data.getExtras();
+                    String status  = bundle.getString("status");
+                    if(status.equalsIgnoreCase("done")){
+                        Toast toast = Toast.makeText(esteContexto, "Signature capture successful!", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 105, 50);
+                        toast.show();
+                    }
+                }
+                break;
+        }
+
+    }
 }

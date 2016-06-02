@@ -54,9 +54,9 @@ public class FormularioAlbaranesCabecera extends FragmentActivity{
                 case 0:
                     return new AlbaranesCabeceraFragment();
                 case 1:
-                    return new firmaFragment();
+                    return new FotoFragmet();
                 case 2:
-                    return new AlbaranesCabeceraFragment();
+                    return new firmaFragment();
                 default:
                     return null;
             }

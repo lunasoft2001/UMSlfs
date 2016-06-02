@@ -61,7 +61,7 @@ public class CaptureSignature extends Activity {
 
         prepareDirectory();
         //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
-        uniqueId = "juanjo" + Math.random();
+        uniqueId = "firma_juanjo";
         current = uniqueId + ".png";
         mypath= new File(directory,current);
 
