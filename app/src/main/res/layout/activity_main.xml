@@ -32,15 +32,15 @@
             android:text="@string/textoUltimoAlbaran"
             android:id="@+id/tvMaxTumbatitulo"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/tvMaxTumbaValor"
-            android:layout_toStartOf="@+id/tvMaxTumbaValor"/>
+            android:layout_toLeftOf="@+id/tvMaxAlbaran"
+            android:layout_toStartOf="@+id/tvMaxAlbaran"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="100"
-            android:id="@+id/tvMaxTumbaValor"
+            android:id="@+id/tvMaxAlbaran"
             android:layout_alignTop="@+id/tvMaxTumbatitulo"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
@@ -98,8 +98,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:background="@color/colorAccent"
-                    android:gravity="center"
-                    android:id="@+id/botonAccion2"/>
+                    android:gravity="center"/>
 
 
 
@@ -123,9 +122,16 @@
                     android:background="@color/colorAccent"
                     android:gravity="center"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:id="@+id/btnListadoClientes"
-                    />
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="----"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"/>
 
                 <TextView
                     android:layout_width="match_parent"

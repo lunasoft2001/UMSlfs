@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class FotoFragment extends Fragment {
 
 
 
-        Button getSignature = (Button) getView().findViewById(R.id.botonFoto);
+        ImageButton getSignature = (ImageButton) getView().findViewById(R.id.botonFoto);
         getSignature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

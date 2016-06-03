@@ -68,4 +68,5 @@ public class capturarFirma extends AppCompatActivity {
 
     }
 
+
 }

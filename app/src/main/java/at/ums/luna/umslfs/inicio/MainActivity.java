@@ -28,9 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TextView nombreTrabajador;
+    private TextView tvUltimoAlbaran;
+
 
     private String idTrabajadorActual;
     private String nombreTrabajadorActual;
+
+    private int ULTIMO_NUMERO_ALBARAN;
+
 
 
 
@@ -51,11 +56,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         nombreTrabajador = (TextView)findViewById(R.id.tvTrabajador);
+        tvUltimoAlbaran = (TextView) findViewById(R.id.tvMaxAlbaran);
+
 
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
-        mOperacionesBaseDatos.leer();
+//        mOperacionesBaseDatos.leer();
         trabajadorActual = mOperacionesBaseDatos.verTrabajador();
         trabajadorActual.moveToFirst();
+
+        tvUltimoAlbaran.setText(String.valueOf(mOperacionesBaseDatos.ultimaCabeceraAlbaran()));
 
         idTrabajadorActual = trabajadorActual.getString(1);
         nombreTrabajadorActual = trabajadorActual.getString(2);

@@ -51,6 +51,22 @@ public class firmaFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
+
+        Button getSignature = (Button) getView().findViewById(R.id.botonFirma);
+        getSignature.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(esteContexto, capturarFirma.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
 
         imagen = (ImageView) getView().findViewById(R.id.imageFirma);
@@ -59,21 +75,10 @@ public class firmaFragment extends Fragment {
         imagen.setImageBitmap(bMap);
 
 
-
-
-        Button getSignature = (Button) getView().findViewById(R.id.botonFirma);
-        getSignature.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-//                Intent intent = new Intent(esteContexto, CaptureSignature.class);
-                Intent intent = new Intent(esteContexto, capturarFirma.class);
-//                startActivityForResult(intent,SIGNATURE_ACTIVITY);
-                startActivity(intent);
-            }
-        });
     }
 
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    //    public void onActivityResult(int requestCode, int resultCode, Intent data)
 //    {
 //        switch(requestCode) {
 //            case SIGNATURE_ACTIVITY:

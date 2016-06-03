@@ -156,5 +156,20 @@ public class OperacionesBaseDatos {
 
     }
 
+    public int ultimaCabeceraAlbaran(){
+        leer();
+        String sql = "SELECT Max(id) As idMaximo From cabecera_albaranes";
+
+        Cursor c = db.rawQuery(sql,null);
+
+        c.moveToFirst();
+
+        int ultimoAlbaran = c.getInt(c.getColumnIndex("idMaximo"));
+
+       Log.i("JUANJO", String.valueOf(ultimoAlbaran));
+
+        return ultimoAlbaran;
+    }
+
 
 }
