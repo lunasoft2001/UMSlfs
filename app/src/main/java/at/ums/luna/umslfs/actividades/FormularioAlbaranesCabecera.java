@@ -1,19 +1,14 @@
 package at.ums.luna.umslfs.actividades;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 
 import at.ums.luna.umslfs.R;
-import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
-import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
 
 public class FormularioAlbaranesCabecera extends FragmentActivity{
 
@@ -54,7 +49,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity{
                 case 0:
                     return new AlbaranesCabeceraFragment();
                 case 1:
-                    return new FotoFragmet();
+                    return new FotoFragment();
                 case 2:
                     return new firmaFragment();
                 default:

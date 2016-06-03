@@ -11,11 +11,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -24,14 +27,17 @@ import at.ums.luna.umslfs.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FotoFragmet extends Fragment {
+public class FotoFragment extends Fragment {
 
-    private String nombreFoto = "";
+    private String nombreFoto = "foto_juanjo.jpg";
+    private String tempDir;
+    ImageView imagen;
+
     private Context esteContexto;
     private static int TAKE_PICTURE = 1;
+    public static final int RESULT_OK = -1;
 
-
-    public FotoFragmet() {
+    public FotoFragment() {
         // Required empty public constructor
     }
 
@@ -42,26 +48,33 @@ public class FotoFragmet extends Fragment {
         esteContexto = container.getContext();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_foto, container, false);
+
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        nombreFoto = Environment.getExternalStorageDirectory() + "/" +
-                getResources().getString(R.string.external_dir) + "/" +
-                "foto_juanjo" + ".png";
 
-        ImageView iv = (ImageView) getView().findViewById(R.id.imageFoto);
-       // iv.setImageResource(nombreFoto);
+        tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
+
+        imagen = (ImageView) getView().findViewById(R.id.imageFoto);
+        Bitmap bMap = BitmapFactory.decodeFile(tempDir + nombreFoto);
+
+        imagen.setImageBitmap(bMap);
+
 
 
         Button getSignature = (Button) getView().findViewById(R.id.botonFoto);
         getSignature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri output = Uri.fromFile(new File(nombreFoto));
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,output);
-
+                File imagesFolder = new File(
+                        Environment.getExternalStorageDirectory(),getResources().getString(R.string.external_dir));
+                imagesFolder.mkdirs();
+                File image = new File(imagesFolder,nombreFoto);
+                Uri uriSavedImage = Uri.fromFile(image);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
                 startActivityForResult(intent,TAKE_PICTURE);
             }
         });
@@ -70,19 +83,16 @@ public class FotoFragmet extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            if (data.hasExtra("data")) {
-                ImageView iv = (ImageView) getView().findViewById(R.id.imageFoto);
-                iv.setImageBitmap((Bitmap) data.getParcelableExtra("data"));
-            } else{
-                ImageView iv = (ImageView) getView().findViewById(R.id.imageFoto);
-                iv.setImageBitmap(BitmapFactory.decodeFile(nombreFoto));
-            }
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bitmap bMap = BitmapFactory.decodeFile(
+                    tempDir + nombreFoto);
+            imagen.setImageBitmap(bMap);
+
+            Toast.makeText(esteContexto, "Foto capture successful!", Toast.LENGTH_SHORT).show();
+        } else
+        {Toast.makeText(esteContexto, "Foto capture error!", Toast.LENGTH_SHORT).show();
+
         }
-
-
-
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
