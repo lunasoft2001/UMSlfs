@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import at.ums.luna.umslfs.R;
 
@@ -27,11 +26,11 @@ public class firmaFragment extends Fragment {
     public static final int SIGNATURE_ACTIVITY = 1;
 
 
+    private String codigoAlbaranObtenido;
     private Context esteContexto;
-
     private String tempDir;
     ImageView imagen;
-    private String nombreFoto = "firma_juanjo.png";
+    private String nombreFirma;
 
     public firmaFragment() {
         // Required empty public constructor
@@ -42,6 +41,12 @@ public class firmaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         esteContexto = container.getContext();
+
+        Bundle args = getArguments();
+        codigoAlbaranObtenido = args.getString("codigoObtenido");
+        nombreFirma = "firma" + codigoAlbaranObtenido + ".png";
+        Log.i("JUANJO", "en el fragmento firma " + nombreFirma);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_firma, container, false);
 
@@ -57,8 +62,9 @@ public class firmaFragment extends Fragment {
         Button getSignature = (Button) getView().findViewById(R.id.botonFirma);
         getSignature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(esteContexto, capturarFirma.class);
-                startActivity(intent);
+                Intent intento = new Intent(esteContexto, capturarFirma.class);
+                intento.putExtra("nombreFirma", nombreFirma);
+                startActivity(intento);
             }
         });
     }
@@ -70,28 +76,11 @@ public class firmaFragment extends Fragment {
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
 
         imagen = (ImageView) getView().findViewById(R.id.imageFirma);
-        Bitmap bMap = BitmapFactory.decodeFile(tempDir + nombreFoto);
+        Bitmap bMap = BitmapFactory.decodeFile(tempDir + nombreFirma);
 
         imagen.setImageBitmap(bMap);
 
 
     }
 
-
-    //    public void onActivityResult(int requestCode, int resultCode, Intent data)
-//    {
-//        switch(requestCode) {
-//            case SIGNATURE_ACTIVITY:
-//                if (resultCode == 123) {
-//
-//                    Bundle bundle = data.getExtras();
-//                    String status  = bundle.getString("status");
-//                    if(status.equalsIgnoreCase("done")){
-//                        Toast.makeText(esteContexto, "Signature capture successful!", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                break;
-//        }
-//
-//    }
 }

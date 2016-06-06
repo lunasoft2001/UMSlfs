@@ -1,10 +1,12 @@
 package at.ums.luna.umslfs.actividades;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import at.ums.luna.umslfs.R;
 public class capturarFirma extends AppCompatActivity {
 
     SignatureView signatureView;
+    private String nuevoNombreFirma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,15 @@ public class capturarFirma extends AppCompatActivity {
         setContentView(R.layout.activity_capturar_firma);
 
         signatureView = (SignatureView) findViewById(R.id.signature_view);
+
+
+        Intent intento = getIntent();
+        Bundle bundle = intento.getExtras();
+        if(bundle != null){
+            nuevoNombreFirma = bundle.getString("nombreFirma");
+            Log.i("JUANJO", "en la firma " + nuevoNombreFirma);
+        }
+
 
     }
 
@@ -42,7 +54,7 @@ public class capturarFirma extends AppCompatActivity {
                 Environment.getExternalStorageDirectory(),getResources().getString(R.string.external_dir));
         imagesFolder.mkdirs();
         OutputStream fOut = null;
-        File file = new File(imagesFolder,"firma_Juanjo.png");
+        File file = new File(imagesFolder,nuevoNombreFirma);
 
         Bitmap bitmap = signatureView.getSignatureBitmap();
 

@@ -2,7 +2,8 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="at.ums.luna.umslfs.actividades.AlbaranesCabeceraFragment">
+             tools:context="at.ums.luna.umslfs.actividades.AlbaranesCabeceraFragment"
+    android:tag="AlbaranCabeceraFragment">
 
     <LinearLayout
 
@@ -58,7 +59,8 @@
             android:maxLines="1"
             android:singleLine="true"
             android:maxLength="8"
-            android:hint="@string/id_cliente"/>
+            android:hint="@string/id_cliente"
+            />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -93,14 +95,45 @@
     </android.support.design.widget.TextInputLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/botonCancelarAlbaran"
+                android:text="@string/Cancelar"
+                android:layout_gravity="center"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/botonBorrarAlbaran"
+                android:text="@string/borrar"
+                android:layout_gravity="center"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/botonActualizarAlbaran"
+                android:text="@string/actualizar"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/botonActualizarTrabajador"
-        android:text="@string/actualizar"
-        android:layout_gravity="center"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/botonSeleccionarCliente"
+            android:text="Cliente"
+            android:layout_gravity="center"/>
+
+
 
 
     </LinearLayout>

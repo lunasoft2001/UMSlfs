@@ -21,4 +21,10 @@
     <string name="CONTENIDOS">CONTENIDOS</string>
     <string name="IMAGEN">IMAGEN</string>
     <string name="FIRMA">FIRMA</string>
+    <string name="borrar">Borrar</string>
+    <string name="Cancelar">Cancelar</string>
+    <string name="elija_un_cliente">Elija un cliente</string>
+    <string name="ContinuarBorrando">¿Desea continuar con la eliminación del albarán?</string>
+    <string name="Advertencia">Advertencia</string>
+    <string name="continuar">Continuar</string>
 </resources>

@@ -31,8 +31,6 @@ public class DBHelper extends SQLiteAssetHelper{
         String FECHA = "fecha";
         String ID_CLIENTE = "idCliente";
         String ID_TRABAJADOR = "idTrabajador";
-        String IMAGEN = "imagen";
-        String FIRMA = "firma";
         String CODIGO_ALBARAN = "codigoAlbaran";
     }
 

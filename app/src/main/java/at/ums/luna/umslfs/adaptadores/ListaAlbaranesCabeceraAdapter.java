@@ -48,7 +48,7 @@ public class ListaAlbaranesCabeceraAdapter extends RecyclerView.Adapter<ListaAlb
     @Override
     public void onBindViewHolder(ListaAlbaranesViewHolder holder, int position) {
         holder.codigoAlbaran.setText(items.get(position).getCodigoAlbaran());
-        holder.fecha.setText(String.valueOf(items.get(position).getFechaFormateada()));
+        holder.fecha.setText(String.valueOf(items.get(position).getFecha()));
         holder.nombre.setText(items.get(position).getNombreCliente());
     }
 

@@ -1,6 +1,7 @@
 package at.ums.luna.umslfs.actividades;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,18 +26,57 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager lManager;
 
-
     /*
     Variables SOLO para SQLite
      */
     OperacionesBaseDatos mOperacionesBaseDatos;
     private List<CabeceraAlbaranes> mCabeceraAlbaranes;
 
+    /*
+    Variables diversas
+     */
+    String idTrabajador;
+    int ultimoAlbaran;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_albaranes_cabecera);
+
+
+        Intent intento = getIntent();
+        Bundle bundle = intento.getExtras();
+        if (bundle != null){
+            idTrabajador = bundle.getString("idTrabajador");
+        }
+
+
+        /*
+        Codigo para el floating button
+         */
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botonNuevaCabeceraAlbaran);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mOperacionesBaseDatos.nuevaCabeceraAlbaran(ultimoAlbaran,idTrabajador);
+
+
+                int nuevoAlbaran = ultimoAlbaran + 1;
+                String nuevoCodigoAlbaran = idTrabajador + String.valueOf(nuevoAlbaran);
+
+                Log.i("JUANJO", "Albaran " + nuevoCodigoAlbaran + " creado");
+
+
+                Intent intento = new Intent(ListaAlbaranesCabecera.this,FormularioAlbaranesCabecera.class);
+                intento.putExtra("codigoAlbaran",nuevoCodigoAlbaran);
+                startActivity(intento);
+            }
+        });
+
+
 
         /*
         Codigo para obtener los datos de la DB
@@ -46,7 +86,6 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
         mOperacionesBaseDatos.abrir();
 
         mCabeceraAlbaranes = mOperacionesBaseDatos.verListaAlbaranesCabeceraCompleta();
-
 
 
         /*
@@ -83,6 +122,14 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
                     }
                 })
         );
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
+        ultimoAlbaran = mOperacionesBaseDatos.ultimaCabeceraAlbaran();
 
     }
 }

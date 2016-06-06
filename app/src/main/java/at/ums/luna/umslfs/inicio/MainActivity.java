@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String idTrabajadorActual;
     private String nombreTrabajadorActual;
+    private int ultimoAlbaran;
 
     private int ULTIMO_NUMERO_ALBARAN;
 
@@ -60,22 +61,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
-//        mOperacionesBaseDatos.leer();
+
         trabajadorActual = mOperacionesBaseDatos.verTrabajador();
         trabajadorActual.moveToFirst();
 
-        tvUltimoAlbaran.setText(String.valueOf(mOperacionesBaseDatos.ultimaCabeceraAlbaran()));
+        //rellenamos ultimoAlbaran
+        ultimoAlbaran = mOperacionesBaseDatos.ultimaCabeceraAlbaran();
+        tvUltimoAlbaran.setText(String.valueOf(ultimoAlbaran));
 
+        //rellenamos trabajadorActual
         idTrabajadorActual = trabajadorActual.getString(1);
         nombreTrabajadorActual = trabajadorActual.getString(2);
 
         nombreTrabajador.setText(nombreTrabajadorActual);
 
+        //comprobacion si no esta configurado el trabajador
         if (idTrabajadorActual.equals("ßß")){
             Log.i("JUANJO", "MODO DEPURACION");
             Intent intento = new Intent(this, FormularioTrabajador.class);
-//            intento.putExtra("id", idTrabajadorActual);
-//            intento.putExtra("nombre", nombreTrabajadorActual);
             startActivity(intento);
 
         }
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void botonListaAlbaranes(View v){
         Intent intento = new Intent(this, ListaAlbaranesCabecera.class);
+        intento.putExtra("idTrabajador", idTrabajadorActual);
         startActivity(intento);
     }
 

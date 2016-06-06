@@ -18,6 +18,15 @@
         android:padding="3dp"
         android:scrollbars="vertical"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/botonNuevaCabeceraAlbaran"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
 
 
 </RelativeLayout>

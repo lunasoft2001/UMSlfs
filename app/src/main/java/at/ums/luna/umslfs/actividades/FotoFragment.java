@@ -30,7 +30,9 @@ import at.ums.luna.umslfs.R;
  */
 public class FotoFragment extends Fragment {
 
-    private String nombreFoto = "foto_juanjo.jpg";
+
+    private String codigoAlbaranObtenido;
+    private String nombreFoto;
     private String tempDir;
     ImageView imagen;
 
@@ -47,6 +49,11 @@ public class FotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         esteContexto = container.getContext();
+
+        Bundle args = getArguments();
+        codigoAlbaranObtenido = args.getString("codigoObtenido");
+        nombreFoto = "foto" + codigoAlbaranObtenido + ".png";
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_foto, container, false);
 

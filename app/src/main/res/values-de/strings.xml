@@ -18,6 +18,12 @@
     <string name="CONTENIDOS">KONTENT</string>
     <string name="IMAGEN">PHOTO</string>
     <string name="FIRMA">SIGNATURE</string>
+    <string name="borrar">LÖSCHEN</string>
+    <string name="Cancelar">ABBUCHEN</string>
+    <string name="elija_un_cliente">Suchen Sie ein Kunde</string>
+    <string name="ContinuarBorrando">¿Wollen Sie die Lieferschein löschen?</string>
+    <string name="Advertencia">Achtung</string>
+    <string name="continuar">Weiter</string>
 
 </resources>
 

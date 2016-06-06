@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -91,6 +93,7 @@ public class OperacionesBaseDatos {
     }
 
 
+
     /**
      * ALBARANES CABECERA
      */
@@ -107,7 +110,8 @@ public class OperacionesBaseDatos {
         String querySimple = "SELECT cabecera_albaranes.codigoAlbaran, " +
                 "cabecera_albaranes.fecha, clientes.nombre " +
                 "FROM clientes INNER JOIN cabecera_albaranes " +
-                "ON clientes.id = cabecera_albaranes.idCliente";
+                "ON clientes.id = cabecera_albaranes.idCliente " +
+                "ORDER BY codigoAlbaran DESC";
 
         Cursor cursor = db.rawQuery(querySimple,null,null);
 
@@ -169,6 +173,51 @@ public class OperacionesBaseDatos {
        Log.i("JUANJO", String.valueOf(ultimoAlbaran));
 
         return ultimoAlbaran;
+    }
+
+    public void nuevaCabeceraAlbaran(int ultimoAlbaran, String idTrabajador){
+        abrir();
+
+        int nuevoAlbaran = ultimoAlbaran + 1;
+        String nuevoCodigoAlbaran = idTrabajador + String.valueOf(nuevoAlbaran);
+
+        ContentValues valores = new ContentValues();
+        valores.put(DBHelper.CabeceraAlbaranesColumnas.ID, nuevoAlbaran);
+        valores.put(DBHelper.CabeceraAlbaranesColumnas.ID_TRABAJADOR, idTrabajador);
+        valores.put(DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN,nuevoCodigoAlbaran);
+        valores.put(DBHelper.CabeceraAlbaranesColumnas.FECHA,obtenerFechaActual());
+        valores.put(DBHelper.CabeceraAlbaranesColumnas.ID_CLIENTE,1);
+
+        db.insert(DBHelper.Tablas.CABECERA_ALBARANES,null,valores);
+
+
+
+    }
+
+    private String obtenerFechaActual() {
+
+        Date ahora = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("dd.MM.yyyy");
+        return formateador.format(ahora);
+
+    }
+
+    public void actualizarCabeceraAlbaran(String[] idAlbaran, String fecha, int idCliente){
+        abrir();
+        ContentValues actualizar = new ContentValues();
+        actualizar.put(DBHelper.CabeceraAlbaranesColumnas.FECHA, fecha);
+        actualizar.put(DBHelper.CabeceraAlbaranesColumnas.ID_CLIENTE, idCliente);
+        db.update(DBHelper.Tablas.CABECERA_ALBARANES, actualizar ,
+                DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "=?", idAlbaran);
+    }
+
+    public void eliminarCabeceraAlbaran(String[] idAlbaran, Context context){
+        abrir();
+        db.delete(DBHelper.Tablas.CABECERA_ALBARANES,
+                DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "= ?"  , idAlbaran);
+
+        Toast.makeText(context,String.format("El albaran %S ha sido eliminado",idAlbaran ),Toast.LENGTH_LONG).show();
+
     }
 
 
