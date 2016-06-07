@@ -27,4 +27,8 @@
     <string name="ContinuarBorrando">¿Desea continuar con la eliminación del albarán?</string>
     <string name="Advertencia">Advertencia</string>
     <string name="continuar">Continuar</string>
+    <string name="firma_guardada">Firma guardada</string>
+    <string name="foto_guardada">Foto capture successful!</string>
+    <string name="error_guardar_foto">Foto capture error!</string>
+    <string name="albaran_cerrado">ALBARAN CERRADO</string>
 </resources>

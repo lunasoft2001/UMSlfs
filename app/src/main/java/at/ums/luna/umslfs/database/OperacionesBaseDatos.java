@@ -50,11 +50,12 @@ public class OperacionesBaseDatos {
      */
 
     public Cursor verTrabajador(){
-        abrir();
+        leer();
         return db.rawQuery("SELECT * FROM " + DBHelper.Tablas.TRABAJADOR, null);
     }
 
     public void actualizarTrabajador(String idNuevo, String nombreNuevo){
+        abrir();
 
         ContentValues valores = new ContentValues();
         valores.put(Trabajadores.ID, idNuevo);
@@ -63,6 +64,7 @@ public class OperacionesBaseDatos {
         String whereClause = Trabajadores.CODIGO_INTERNO + " = " + 1;
 
         db.update(DBHelper.Tablas.TRABAJADOR, valores, whereClause, null);
+        cerrar();
     }
 
     /**
@@ -77,6 +79,7 @@ public class OperacionesBaseDatos {
     };
 
     public List<Clientes> verListaClientesCompleta(){
+        leer();
         Cursor cursor = db.query(DBHelper.Tablas.CLIENTES,todasColumnasClientes,null,null,null,null,null);
 
         List<Clientes> listaClientes = new ArrayList<>();
@@ -89,6 +92,8 @@ public class OperacionesBaseDatos {
             clientes.setEmail(cursor.getString(cursor.getColumnIndex(DBHelper.Clientes.EMAIL)));
             listaClientes.add(clientes);
         }
+        cerrar();
+
         return listaClientes;
     }
 
@@ -99,6 +104,7 @@ public class OperacionesBaseDatos {
      */
 
     public List<CabeceraAlbaranes> verListaAlbaranesCabeceraCompleta(){
+        leer();
         String query = "SELECT " +
                 DBHelper.Tablas.CABECERA_ALBARANES + "." + DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "," +
                 DBHelper.Tablas.CABECERA_ALBARANES + "." + DBHelper.CabeceraAlbaranesColumnas.FECHA + "," +
@@ -125,6 +131,7 @@ public class OperacionesBaseDatos {
             listaAlbaranes.add(cabeceraAlbaranes);
         }
 
+        cerrar();
         return listaAlbaranes;
     }
 
@@ -155,6 +162,7 @@ public class OperacionesBaseDatos {
         albaran.setDireccionCliente(c.getString(c.getColumnIndex("direccion")));
         albaran.setEmailCliente(c.getString(c.getColumnIndex("email")));
 
+        cerrar();
 
         return albaran;
 
@@ -170,7 +178,7 @@ public class OperacionesBaseDatos {
 
         int ultimoAlbaran = c.getInt(c.getColumnIndex("idMaximo"));
 
-       Log.i("JUANJO", String.valueOf(ultimoAlbaran));
+        cerrar();
 
         return ultimoAlbaran;
     }

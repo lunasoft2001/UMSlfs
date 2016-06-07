@@ -67,7 +67,7 @@ public class capturarFirma extends AppCompatActivity {
                 fOut.close();
 
                 if (bitmap !=null){
-                    Toast.makeText(getApplicationContext(),"Firma guardada",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.firma_guardada,Toast.LENGTH_LONG).show();
                 }
 
             }

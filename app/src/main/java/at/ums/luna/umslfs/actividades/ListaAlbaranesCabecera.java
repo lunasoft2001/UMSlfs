@@ -83,7 +83,7 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
          */
 
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
-        mOperacionesBaseDatos.abrir();
+//        mOperacionesBaseDatos.abrir();
 
         mCabeceraAlbaranes = mOperacionesBaseDatos.verListaAlbaranesCabeceraCompleta();
 
@@ -128,7 +128,7 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
+//        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
         ultimoAlbaran = mOperacionesBaseDatos.ultimaCabeceraAlbaran();
 
     }

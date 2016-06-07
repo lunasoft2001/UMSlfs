@@ -158,17 +158,20 @@ public class AlbaranesCabeceraFragment extends Fragment{
         int idClienteActual= Integer.parseInt(idCliente.getText().toString());
 
         mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
+
+        getActivity().finish();
     }
 
     private void seleccionarCliente(){
 
-        final CharSequence[] items = {"Android OS", "iOS", "Windows Phone", "Meego"};
+        final CharSequence[] items = {"1", "2000000", "2000001", "2000002"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(esteContexto);
-        builder.setTitle("Tu OS móvil preferido?");
+        builder.setTitle("Elige el cliente");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                Toast toast = Toast.makeText(esteContexto.getApplicationContext(), "Haz elegido la opcion: " + items[item] , Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(esteContexto.getApplicationContext(), "Has elegido la opcion: " + items[item] , Toast.LENGTH_SHORT);
+                idCliente.setText(items[item]);
                 toast.show();
                 dialog.cancel();
             }

@@ -90,7 +90,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Toast.makeText(this,"ALBARAN CERRADO", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.albaran_cerrado, Toast.LENGTH_SHORT).show();
         finish();
     }
 

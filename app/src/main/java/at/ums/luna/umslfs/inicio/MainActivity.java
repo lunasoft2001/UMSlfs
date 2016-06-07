@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         //comprobacion si no esta configurado el trabajador
         if (idTrabajadorActual.equals("ßß")){
-            Log.i("JUANJO", "MODO DEPURACION");
             Intent intento = new Intent(this, FormularioTrabajador.class);
             startActivity(intento);
 

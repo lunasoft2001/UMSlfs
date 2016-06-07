@@ -97,9 +97,9 @@ public class FotoFragment extends Fragment {
                     tempDir + nombreFoto);
             imagen.setImageBitmap(bMap);
 
-            Toast.makeText(esteContexto, "Foto capture successful!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(esteContexto, R.string.foto_guardada, Toast.LENGTH_SHORT).show();
         } else
-        {Toast.makeText(esteContexto, "Foto capture error!", Toast.LENGTH_SHORT).show();
+        {Toast.makeText(esteContexto, R.string.error_guardar_foto, Toast.LENGTH_SHORT).show();
 
         }
     }

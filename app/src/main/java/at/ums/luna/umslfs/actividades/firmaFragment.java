@@ -45,7 +45,6 @@ public class firmaFragment extends Fragment {
         Bundle args = getArguments();
         codigoAlbaranObtenido = args.getString("codigoObtenido");
         nombreFirma = "firma" + codigoAlbaranObtenido + ".png";
-        Log.i("JUANJO", "en el fragmento firma " + nombreFirma);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_firma, container, false);
