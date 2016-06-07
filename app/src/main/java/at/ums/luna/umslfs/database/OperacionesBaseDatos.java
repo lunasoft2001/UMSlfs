@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.database.DBHelper.Trabajadores;
 import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
 import at.ums.luna.umslfs.modelos.Clientes;
@@ -224,7 +225,7 @@ public class OperacionesBaseDatos {
         db.delete(DBHelper.Tablas.CABECERA_ALBARANES,
                 DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "= ?"  , idAlbaran);
 
-        Toast.makeText(context,String.format("El albaran %S ha sido eliminado",idAlbaran ),Toast.LENGTH_LONG).show();
+        Toast.makeText(context,String.format(context.getString(R.string.albaran_eliminado),idAlbaran ),Toast.LENGTH_LONG).show();
 
     }
 

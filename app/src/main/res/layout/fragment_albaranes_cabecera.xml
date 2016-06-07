@@ -117,23 +117,14 @@
                 android:layout_gravity="center"/>
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/botonActualizarAlbaran"
-                android:text="@string/actualizar"
-                android:layout_gravity="center"/>
-
         </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/botonSeleccionarCliente"
-            android:text="Cliente"
+            android:id="@+id/botonActualizarAlbaran"
+            android:text="@string/actualizar"
             android:layout_gravity="center"/>
-
-
 
 
     </LinearLayout>

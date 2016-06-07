@@ -77,16 +77,7 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
         });
 
 
-
-        /*
-        Codigo para obtener los datos de la DB
-         */
-
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
-//        mOperacionesBaseDatos.abrir();
-
-        mCabeceraAlbaranes = mOperacionesBaseDatos.verListaAlbaranesCabeceraCompleta();
-
 
         /*
         Obtener el Recycler
@@ -101,12 +92,6 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
 
-        /*
-        Crear un nuevo adaptador
-         */
-
-        adapter = new ListaAlbaranesCabeceraAdapter(mCabeceraAlbaranes);
-        recycler.setAdapter(adapter);
 
         //Este metodo esta implementando la clase RecyclerItemClickListener que he creado
         recycler.addOnItemTouchListener(
@@ -128,8 +113,17 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
+
         ultimoAlbaran = mOperacionesBaseDatos.ultimaCabeceraAlbaran();
+
+        /*
+        Crear un nuevo adaptador
+         */
+
+        mCabeceraAlbaranes = mOperacionesBaseDatos.verListaAlbaranesCabeceraCompleta();
+
+        adapter = new ListaAlbaranesCabeceraAdapter(mCabeceraAlbaranes);
+        recycler.setAdapter(adapter);
 
     }
 }

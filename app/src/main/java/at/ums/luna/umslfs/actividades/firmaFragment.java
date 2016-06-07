@@ -14,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import java.io.File;
 
 import at.ums.luna.umslfs.R;
 
@@ -58,7 +61,7 @@ public class firmaFragment extends Fragment {
 
 
 
-        Button getSignature = (Button) getView().findViewById(R.id.botonFirma);
+        ImageButton getSignature = (ImageButton) getView().findViewById(R.id.botonFirma);
         getSignature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intento = new Intent(esteContexto, capturarFirma.class);
@@ -73,12 +76,16 @@ public class firmaFragment extends Fragment {
         super.onResume();
 
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
-
         imagen = (ImageView) getView().findViewById(R.id.imageFirma);
-        Bitmap bMap = BitmapFactory.decodeFile(tempDir + nombreFirma);
+        String archivo = tempDir + nombreFirma;
 
-        imagen.setImageBitmap(bMap);
+        File fichero = new File(archivo);
 
+        if(fichero.exists()){
+            Bitmap bMap = BitmapFactory.decodeFile(archivo);
+
+            imagen.setImageBitmap(bMap);
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package at.ums.luna.umslfs.actividades;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,13 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import at.ums.luna.umslfs.R;
+import at.ums.luna.umslfs.adaptadores.DialogoListaClientes;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
 import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
 import at.ums.luna.umslfs.modelos.Clientes;
@@ -70,29 +74,14 @@ public class AlbaranesCabeceraFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
 
-
-
-        mOperacionesBaseDatos = new OperacionesBaseDatos(esteContexto);
-        CabeceraAlbaranes albaranActual = mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
-
-        codigoAlbaran = (TextView)getView().findViewById(R.id.tvCodigoAlbaran);
-        fecha = (TextView)getView().findViewById(R.id.tvFecha);
-        idCliente = (TextView)getView().findViewById(R.id.tvIdCliente);
-        nombreCliente = (TextView)getView().findViewById(R.id.tvNombreCliente);
-        direccionCliente = (TextView)getView().findViewById(R.id.tvDireccionCliente);
-
-        codigoAlbaran.setText(codigoAlbaranObtenido);
-        fecha.setText(albaranActual.getFecha().toString());
-        idCliente.setText(String.valueOf(albaranActual.getIdCliente()));
-        nombreCliente.setText(albaranActual.getNombreCliente());
-        direccionCliente.setText(albaranActual.getDireccionCliente());
+        refrescarDatos();
 
 
         //Codigo para el onClickListener
         getView().findViewById(R.id.botonCancelarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonBorrarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonActualizarAlbaran).setOnClickListener(mGlobal_onClickListener);
-        getView().findViewById(R.id.botonSeleccionarCliente).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.tvIdCliente).setOnClickListener(mGlobal_onClickListener);
 
     }
 
@@ -110,13 +99,32 @@ public class AlbaranesCabeceraFragment extends Fragment{
                 case R.id.botonActualizarAlbaran:
                     Actualizar();
                     break;
-                case R.id.botonSeleccionarCliente:
+                case R.id.tvIdCliente:
                     seleccionarCliente();
                     break;
 
             }
         }
     };
+
+
+    private void refrescarDatos() {
+        mOperacionesBaseDatos = new OperacionesBaseDatos(esteContexto);
+        CabeceraAlbaranes albaranActual = mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
+
+        codigoAlbaran = (TextView)getView().findViewById(R.id.tvCodigoAlbaran);
+        fecha = (TextView)getView().findViewById(R.id.tvFecha);
+        idCliente = (TextView)getView().findViewById(R.id.tvIdCliente);
+        nombreCliente = (TextView)getView().findViewById(R.id.tvNombreCliente);
+        direccionCliente = (TextView)getView().findViewById(R.id.tvDireccionCliente);
+
+        codigoAlbaran.setText(codigoAlbaranObtenido);
+        fecha.setText(albaranActual.getFecha().toString());
+        idCliente.setText(String.valueOf(albaranActual.getIdCliente()));
+        nombreCliente.setText(albaranActual.getNombreCliente());
+        direccionCliente.setText(albaranActual.getDireccionCliente());
+    }
+
 
     private void Eliminar(){
 
@@ -164,20 +172,61 @@ public class AlbaranesCabeceraFragment extends Fragment{
 
     private void seleccionarCliente(){
 
-        final CharSequence[] items = {"1", "2000000", "2000001", "2000002"};
+        final List<Clientes> listaDeClientes= mOperacionesBaseDatos.verListaClientesCompleta();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(esteContexto);
-        builder.setTitle("Elige el cliente");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                Toast toast = Toast.makeText(esteContexto.getApplicationContext(), "Has elegido la opcion: " + items[item] , Toast.LENGTH_SHORT);
-                idCliente.setText(items[item]);
-                toast.show();
+        final Dialog dialog = new Dialog(esteContexto);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialogo_lista_clientes, null);
+
+        ListView lv = (ListView) view.findViewById(R.id.lista1);
+        DialogoListaClientes dialogo = new DialogoListaClientes(esteContexto, (ArrayList<Clientes>) listaDeClientes);
+
+        lv.setAdapter(dialogo);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                idCliente.setText(String.valueOf(listaDeClientes.get(position).getId()));
+
+                //Actualizar datos
+                String [] idAlbaranActual = {codigoAlbaranObtenido};
+                String fechaActual = fecha.getText().toString();
+                int idClienteActual= Integer.parseInt(idCliente.getText().toString());
+                mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
+                refrescarDatos();
+
+                //cierra Dialogo
                 dialog.cancel();
             }
         });
-        AlertDialog alert = builder.create();
-        alert.show();
+        dialog.setTitle(R.string.seleccione_cliente);
+        dialog.setContentView(view);
+        dialog.show();
+
+////        final CharSequence[] items = {"1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002"};
+////        AlertDialog.Builder builder = new AlertDialog.Builder(esteContexto);
+////        builder.setTitle("Elige el cliente");
+////        builder.setItems(items, new DialogInterface.OnClickListener() {
+////            public void onClick(DialogInterface dialog, int item) {
+////                Toast toast = Toast.makeText(esteContexto.getApplicationContext(), "Has elegido la opcion: " + items[item] , Toast.LENGTH_SHORT);
+////                idCliente.setText(items[item]);
+////                toast.show();
+////                dialog.cancel();
+//
+//                //Prueba de actualizacion
+//                String [] idAlbaranActual = {codigoAlbaranObtenido};
+//                String fechaActual = fecha.getText().toString();
+//                int idClienteActual= Integer.parseInt(idCliente.getText().toString());
+//
+//                mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
+//
+//                refrescarDatos();
+//
+////            }
+////        });
+////        AlertDialog alert = builder.create();
+////        alert.show();
+
+
 
 
     }

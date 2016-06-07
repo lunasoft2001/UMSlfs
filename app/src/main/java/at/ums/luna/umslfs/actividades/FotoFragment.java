@@ -67,10 +67,13 @@ public class FotoFragment extends Fragment {
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
 
         imagen = (ImageView) getView().findViewById(R.id.imageFoto);
-        Bitmap bMap = BitmapFactory.decodeFile(tempDir + nombreFoto);
+        String archivo = tempDir + nombreFoto;
+        File fichero = new File(archivo);
 
-        imagen.setImageBitmap(bMap);
-
+        if(fichero.exists()){
+            Bitmap bMap = BitmapFactory.decodeFile(archivo);
+            imagen.setImageBitmap(bMap);
+        }
 
 
         ImageButton getSignature = (ImageButton) getView().findViewById(R.id.botonFoto);
