@@ -39,6 +39,7 @@ public class DBHelper extends SQLiteAssetHelper{
         String LINEA = "linea";
         String DETALLE = "detalle";
         String CANTIDAD = "cantidad";
+        String TIPO = "tipo";
     }
 
     public interface Clientes{

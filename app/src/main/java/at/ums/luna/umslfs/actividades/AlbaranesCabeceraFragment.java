@@ -74,6 +74,10 @@ public class AlbaranesCabeceraFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
 
+
+
+
+
         refrescarDatos();
 
 
@@ -81,7 +85,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
         getView().findViewById(R.id.botonCancelarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonBorrarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonActualizarAlbaran).setOnClickListener(mGlobal_onClickListener);
-        getView().findViewById(R.id.tvIdCliente).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.imageButtonElegirCliente).setOnClickListener(mGlobal_onClickListener);
 
     }
 
@@ -99,7 +103,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
                 case R.id.botonActualizarAlbaran:
                     Actualizar();
                     break;
-                case R.id.tvIdCliente:
+                case R.id.imageButtonElegirCliente:
                     seleccionarCliente();
                     break;
 
@@ -153,10 +157,6 @@ public class AlbaranesCabeceraFragment extends Fragment{
         AlertDialog alert = builder.create();
         alert.show();
 
-
-
-
-
     }
 
     private void Actualizar(){
@@ -172,7 +172,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
 
     private void seleccionarCliente(){
 
-        final List<Clientes> listaDeClientes= mOperacionesBaseDatos.verListaClientesCompleta();
+        final List<Clientes> listaDeClientes= mOperacionesBaseDatos.verListaClientesCompletaPorNombre();
 
         final Dialog dialog = new Dialog(esteContexto);
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialogo_lista_clientes, null);
@@ -186,13 +186,8 @@ public class AlbaranesCabeceraFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 idCliente.setText(String.valueOf(listaDeClientes.get(position).getId()));
-
-                //Actualizar datos
-                String [] idAlbaranActual = {codigoAlbaranObtenido};
-                String fechaActual = fecha.getText().toString();
-                int idClienteActual= Integer.parseInt(idCliente.getText().toString());
-                mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
-                refrescarDatos();
+                nombreCliente.setText(listaDeClientes.get(position).getNombre());
+                direccionCliente.setText(listaDeClientes.get(position).getDireccion());
 
                 //cierra Dialogo
                 dialog.cancel();
@@ -201,31 +196,6 @@ public class AlbaranesCabeceraFragment extends Fragment{
         dialog.setTitle(R.string.seleccione_cliente);
         dialog.setContentView(view);
         dialog.show();
-
-////        final CharSequence[] items = {"1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002","1", "2000000", "2000001", "2000002"};
-////        AlertDialog.Builder builder = new AlertDialog.Builder(esteContexto);
-////        builder.setTitle("Elige el cliente");
-////        builder.setItems(items, new DialogInterface.OnClickListener() {
-////            public void onClick(DialogInterface dialog, int item) {
-////                Toast toast = Toast.makeText(esteContexto.getApplicationContext(), "Has elegido la opcion: " + items[item] , Toast.LENGTH_SHORT);
-////                idCliente.setText(items[item]);
-////                toast.show();
-////                dialog.cancel();
-//
-//                //Prueba de actualizacion
-//                String [] idAlbaranActual = {codigoAlbaranObtenido};
-//                String fechaActual = fecha.getText().toString();
-//                int idClienteActual= Integer.parseInt(idCliente.getText().toString());
-//
-//                mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
-//
-//                refrescarDatos();
-//
-////            }
-////        });
-////        AlertDialog alert = builder.create();
-////        alert.show();
-
 
 
 

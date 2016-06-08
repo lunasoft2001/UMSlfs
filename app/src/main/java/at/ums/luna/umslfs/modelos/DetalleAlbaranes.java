@@ -9,12 +9,14 @@ public class DetalleAlbaranes {
     private int linea;
     private String detalle;
     private double cantidad;
+    private String tipo;
 
-    public  DetalleAlbaranes(String codigoAlbaran, int linea, String detalle, double cantidad){
+    public  DetalleAlbaranes(String codigoAlbaran, int linea, String detalle, double cantidad, String tipo){
         this.codigoAlbaran = codigoAlbaran;
         this.linea = linea;
         this.detalle = detalle;
         this.cantidad = cantidad;
+        this.tipo = tipo;
     }
 
     public DetalleAlbaranes(){
@@ -51,5 +53,13 @@ public class DetalleAlbaranes {
 
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

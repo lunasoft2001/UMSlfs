@@ -30,6 +30,8 @@
     <string name="albaran_cerrado">Lieferschein geschließt</string>
     <string name="albaran_eliminado">Der Lieferschein %S ist gelöscht</string>
     <string name="seleccione_cliente">Markieren Sie ein Kunde</string>
+    <string name="DETALLE">DETALLE</string>
+    <string name="nueva_linea">Nueva Linea</string>
 
 </resources>
 

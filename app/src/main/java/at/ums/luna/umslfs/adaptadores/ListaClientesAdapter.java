@@ -28,9 +28,9 @@ public class ListaClientesAdapter extends RecyclerView.Adapter<ListaClientesAdap
         public ListaClientesViewHolder(View v){
             super(v);
             idCliente = (TextView) v.findViewById(R.id.idCliente);
-            nombre = (TextView) v.findViewById(R.id.nombre);
+            nombre = (TextView) v.findViewById(R.id.descripcion);
             direccion = (TextView) v.findViewById(R.id.direccion);
-            telefono = (TextView) v.findViewById(R.id.telefono);
+            telefono = (TextView) v.findViewById(R.id.tipo);
 
         }
 

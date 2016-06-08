@@ -33,4 +33,6 @@
     <string name="albaran_cerrado">ALBARAN CERRADO</string>
     <string name="albaran_eliminado">El albaran %S ha sido eliminado</string>
     <string name="seleccione_cliente">Seleccione un cliente</string>
+    <string name="DETALLE">DETALLE</string>
+    <string name="nueva_linea">Nueva Linea</string>
 </resources>

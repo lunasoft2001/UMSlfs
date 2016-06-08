@@ -46,8 +46,10 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
                 case 0:
                     return getString(R.string.CONTENIDOS);
                 case 1:
-                    return getString(R.string.IMAGEN);
+                    return getString(R.string.DETALLE);
                 case 2:
+                    return getString(R.string.IMAGEN);
+                case 3:
                     return getString(R.string.FIRMA);
                 default:
                     return "---";
@@ -69,13 +71,17 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
                     f1.setArguments(args);
                     return f1;
                 case 1:
-                    FotoFragment f2 = new FotoFragment();
+                    DetalleAlbaranFragment f2 = new DetalleAlbaranFragment();
                     f2.setArguments(args);
                     return f2;
                 case 2:
-                    firmaFragment f3 = new firmaFragment();
+                    FotoFragment f3 = new FotoFragment();
                     f3.setArguments(args);
                     return f3;
+                case 3:
+                    firmaFragment f4 = new firmaFragment();
+                    f4.setArguments(args);
+                    return f4;
                 default:
                     return null;
             }
@@ -83,7 +89,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 

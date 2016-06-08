@@ -48,21 +48,39 @@
 
         </RelativeLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <AutoCompleteTextView
-            android:id="@+id/tvIdCliente"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:maxLength="8"
-            android:hint="@string/id_cliente"
-            />
+            android:orientation="horizontal">
 
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/widgetIdCliente">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tvIdCliente"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="8"
+                    android:hint="@string/id_cliente"
+                    android:clickable="true"
+                    android:editable="false"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButtonElegirCliente"
+                android:src="@android:drawable/ic_menu_myplaces"/>
+
+        </LinearLayout>
+
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -74,7 +92,8 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
-            android:hint="@string/nombre_cliente"/>
+            android:hint="@string/nombre_cliente"
+            android:editable="false"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +109,8 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
-            android:hint="@string/direccion_cliente"/>
+            android:hint="@string/direccion_cliente"
+            android:editable="false"/>
 
     </android.support.design.widget.TextInputLayout>
 

@@ -19,6 +19,7 @@ import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.database.DBHelper.Trabajadores;
 import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
 import at.ums.luna.umslfs.modelos.Clientes;
+import at.ums.luna.umslfs.modelos.DetalleAlbaranes;
 
 /**
  * Created by luna-aleixos on 30.05.2016.
@@ -98,6 +99,24 @@ public class OperacionesBaseDatos {
         return listaClientes;
     }
 
+    public List<Clientes> verListaClientesCompletaPorNombre(){
+        leer();
+        Cursor cursor = db.query(DBHelper.Tablas.CLIENTES,todasColumnasClientes,null,null,null,null,DBHelper.Clientes.NOMBRE);
+
+        List<Clientes> listaClientes = new ArrayList<>();
+        while (cursor.moveToNext()){
+            Clientes clientes = new Clientes();
+            clientes.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.Clientes.ID)));
+            clientes.setNombre(cursor.getString(cursor.getColumnIndex(DBHelper.Clientes.NOMBRE)));
+            clientes.setDireccion(cursor.getString(cursor.getColumnIndex(DBHelper.Clientes.DIRECCION)));
+            clientes.setTelefono(cursor.getString(cursor.getColumnIndex(DBHelper.Clientes.TELEFONO)));
+            clientes.setEmail(cursor.getString(cursor.getColumnIndex(DBHelper.Clientes.EMAIL)));
+            listaClientes.add(clientes);
+        }
+        cerrar();
+
+        return listaClientes;
+    }
 
 
     /**
@@ -184,6 +203,8 @@ public class OperacionesBaseDatos {
         return ultimoAlbaran;
     }
 
+
+
     public void nuevaCabeceraAlbaran(int ultimoAlbaran, String idTrabajador){
         abrir();
 
@@ -229,5 +250,77 @@ public class OperacionesBaseDatos {
 
     }
 
+
+
+    /*
+    DETALLE ALBARANES
+     */
+
+    public void nuevoDetalleAlbaran(int ultimaLinea, String codigoAlbaran){
+        abrir();
+
+        ultimaLinea++;
+
+        ContentValues valores = new ContentValues();
+        valores.put(DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN, codigoAlbaran);
+        valores.put(DBHelper.DetalleAlbarenesColumnas.LINEA, ultimaLinea);
+
+        db.insert(DBHelper.Tablas.DETALLE_ALBARANES,null,valores);
+
+        Log.i("JUANJO", "Linea " + ultimaLinea + " creada en el albaran " + codigoAlbaran);
+    }
+
+    public int ultimaLineaAlbaran(String codigoAlbaran){
+        leer();
+        String[] args = {codigoAlbaran};
+
+        String sql = "SELECT Max(linea) As lineaMaxima From detalle_albaranes " +
+                "WHERE detalle_albaranes.codigoAlbaran =?";
+
+        Cursor c = db.rawQuery(sql,args);
+
+        c.moveToFirst();
+
+        int ultimoAlbaran = c.getInt(c.getColumnIndex("lineaMaxima"));
+
+
+        cerrar();
+
+        Log.i("JUANJO", String.valueOf(ultimoAlbaran));
+
+        return ultimoAlbaran;
+
+    }
+
+    public static final String[] todasColumnasDetalleAlbaran = {
+            DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN,
+            DBHelper.DetalleAlbarenesColumnas.LINEA,
+            DBHelper.DetalleAlbarenesColumnas.DETALLE,
+            DBHelper.DetalleAlbarenesColumnas.CANTIDAD,
+            DBHelper.DetalleAlbarenesColumnas.TIPO
+    };
+
+    public List<DetalleAlbaranes> verListaDetalleAlbaran(String codigoAlbaran){
+        leer();
+        String[] args ={codigoAlbaran};
+        String criterioSeleccion = DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN + "=?";
+
+
+        Cursor cursor = db.query(DBHelper.Tablas.DETALLE_ALBARANES,todasColumnasDetalleAlbaran,criterioSeleccion,args,null,null,DBHelper.DetalleAlbarenesColumnas.LINEA);
+
+        List<DetalleAlbaranes> listaDetalleAlbaranes = new ArrayList<>();
+        while (cursor.moveToNext()){
+            DetalleAlbaranes detalles = new DetalleAlbaranes();
+            detalles.setCodigoAlbaran(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN)));
+            detalles.setLinea(cursor.getInt(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.LINEA)));
+            detalles.setDetalle(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.DETALLE)));
+            detalles.setCantidad(cursor.getInt(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CANTIDAD)));
+            detalles.setTipo(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.TIPO)));
+            listaDetalleAlbaranes.add(detalles);
+        }
+        cerrar();
+
+        return listaDetalleAlbaranes;
+    }
 
 }
