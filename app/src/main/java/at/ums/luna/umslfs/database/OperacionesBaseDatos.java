@@ -259,7 +259,6 @@ public class OperacionesBaseDatos {
     public void nuevoDetalleAlbaran(int ultimaLinea, String codigoAlbaran){
         abrir();
 
-        ultimaLinea++;
 
         ContentValues valores = new ContentValues();
         valores.put(DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN, codigoAlbaran);
@@ -314,7 +313,7 @@ public class OperacionesBaseDatos {
             detalles.setCodigoAlbaran(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN)));
             detalles.setLinea(cursor.getInt(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.LINEA)));
             detalles.setDetalle(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.DETALLE)));
-            detalles.setCantidad(cursor.getInt(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CANTIDAD)));
+            detalles.setCantidad(cursor.getDouble(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CANTIDAD)));
             detalles.setTipo(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.TIPO)));
             listaDetalleAlbaranes.add(detalles);
         }
@@ -322,5 +321,66 @@ public class OperacionesBaseDatos {
 
         return listaDetalleAlbaranes;
     }
+
+
+    public DetalleAlbaranes obtenerDetalleAlbaran(String codigoAlbaran, String linea){
+        leer();
+
+        String[] args ={codigoAlbaran, linea};
+        String criterioSeleccion = DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN + "=? AND " +
+                DBHelper.DetalleAlbarenesColumnas.LINEA + "=?";
+
+
+        Cursor cursor = db.query(DBHelper.Tablas.DETALLE_ALBARANES,todasColumnasDetalleAlbaran,criterioSeleccion,args,null,null,null);
+
+        DetalleAlbaranes detalleAlbaranes = new DetalleAlbaranes();
+        cursor.moveToFirst();
+
+        detalleAlbaranes.setCodigoAlbaran(codigoAlbaran);
+        detalleAlbaranes.setLinea(cursor.getInt(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.LINEA)));
+        detalleAlbaranes.setDetalle(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.DETALLE)));
+        detalleAlbaranes.setCantidad(cursor.getDouble(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.CANTIDAD)));
+        detalleAlbaranes.setTipo(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.TIPO)));
+
+        cerrar();
+
+        return  detalleAlbaranes;
+
+    }
+
+    public void actualizarDetalleAlbaran(String codigoAlbaran, String linea,String detalle,
+                                         double cantidad, String tipo){
+        abrir();
+
+        String[] args = {codigoAlbaran,linea};
+
+        ContentValues actualizar = new ContentValues();
+        actualizar.put(DBHelper.DetalleAlbarenesColumnas.DETALLE, detalle);
+        actualizar.put(DBHelper.DetalleAlbarenesColumnas.CANTIDAD, cantidad);
+        actualizar.put(DBHelper.DetalleAlbarenesColumnas.TIPO, tipo);
+
+        db.update(DBHelper.Tablas.DETALLE_ALBARANES, actualizar ,
+                DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN + "=? AND " +
+                DBHelper.DetalleAlbarenesColumnas.LINEA + "=?", args);
+
+
+        cerrar();
+    }
+
+    public void eliminarDetalleAlbaran(String codigoAlbaran, String linea, Context context){
+        abrir();
+
+        String[] args = {codigoAlbaran,linea};
+
+        db.delete(DBHelper.Tablas.DETALLE_ALBARANES,
+                DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN + "=? AND " +
+                        DBHelper.DetalleAlbarenesColumnas.LINEA + "=?", args);
+
+        Toast.makeText(context,String.format(context.getString(R.string.detalle_eliminado), linea ),Toast.LENGTH_LONG).show();
+
+        cerrar();
+
+    }
+
 
 }

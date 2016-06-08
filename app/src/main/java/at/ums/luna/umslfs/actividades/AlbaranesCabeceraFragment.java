@@ -73,13 +73,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-
-
-
         refrescarDatos();
-
 
         //Codigo para el onClickListener
         getView().findViewById(R.id.botonCancelarAlbaran).setOnClickListener(mGlobal_onClickListener);

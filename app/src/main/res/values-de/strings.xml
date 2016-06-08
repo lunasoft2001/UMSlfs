@@ -21,7 +21,7 @@
     <string name="borrar">LÖSCHEN</string>
     <string name="Cancelar">ABBUCHEN</string>
     <string name="elija_un_cliente">Suchen Sie ein Kunde</string>
-    <string name="ContinuarBorrando">¿Wollen Sie die Lieferschein löschen?</string>
+    <string name="ContinuarBorrando">¿Wollen Sie die aktuell Element löschen?</string>
     <string name="Advertencia">Achtung</string>
     <string name="continuar">Weiter</string>
     <string name="firma_guardada">Signature gespeichert</string>
@@ -30,8 +30,17 @@
     <string name="albaran_cerrado">Lieferschein geschließt</string>
     <string name="albaran_eliminado">Der Lieferschein %S ist gelöscht</string>
     <string name="seleccione_cliente">Markieren Sie ein Kunde</string>
-    <string name="DETALLE">DETALLE</string>
-    <string name="nueva_linea">Nueva Linea</string>
+    <string name="DETALLE">DETAIL</string>
+    <string name="nueva_linea">Neue Position</string>
+    <string name="linea">Position</string>
+    <string name="descripcion">Detail</string>
+    <string name="cantidad">Menge</string>
+    <string name="tipo">E.H.</string>
+    <string name="numero_de_lineas">Zahlung von Linien</string>
+    <string name="detalle_de_albaran">Liefereschein detail</string>
+    <string name="lista_albaranes">Lieferscheineliste</string>
+    <string name="detalle_eliminado">Die Position %S ist gelöscht</string>
+    <string name="lista_clientes">Kundenliste</string>
 
 </resources>
 

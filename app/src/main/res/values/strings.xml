@@ -24,7 +24,7 @@
     <string name="borrar">Borrar</string>
     <string name="Cancelar">Cancelar</string>
     <string name="elija_un_cliente">Elija un cliente</string>
-    <string name="ContinuarBorrando">¿Desea continuar con la eliminación del albarán?</string>
+    <string name="ContinuarBorrando">¿Desea continuar con la eliminación del elemento actual?</string>
     <string name="Advertencia">Advertencia</string>
     <string name="continuar">Continuar</string>
     <string name="firma_guardada">Firma guardada</string>
@@ -35,4 +35,13 @@
     <string name="seleccione_cliente">Seleccione un cliente</string>
     <string name="DETALLE">DETALLE</string>
     <string name="nueva_linea">Nueva Linea</string>
+    <string name="linea">linea</string>
+    <string name="descripcion">detalle</string>
+    <string name="cantidad">cantidad</string>
+    <string name="tipo">tipo</string>
+    <string name="numero_de_lineas">numero de lineas</string>
+    <string name="detalle_de_albaran">detalle de Albaran</string>
+    <string name="lista_albaranes">Lista de Albaranes</string>
+    <string name="detalle_eliminado">La linea %S ha sido borrada</string>
+    <string name="lista_clientes">lista de clientes</string>
 </resources>
