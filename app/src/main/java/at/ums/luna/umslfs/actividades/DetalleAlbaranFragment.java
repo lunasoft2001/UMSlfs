@@ -2,6 +2,7 @@ package at.ums.luna.umslfs.actividades;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,8 @@ public class DetalleAlbaranFragment extends Fragment {
     private Context esteContexto;
 
     private List<DetalleAlbaranes> mDetalleAlbaranes;
+    private String valorCodigoAlbaran;
+    private String valorLineaAlbaran;
 
     private TextView ultimaLinea;
     private int valorUltimaLinea;
@@ -69,7 +72,9 @@ public class DetalleAlbaranFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        refrescarDatos();
+
+
+        cargaInicial();
 
         //Codigo para el onClickListener
         getView().findViewById(R.id.botonNuevaLinea).setOnClickListener(mGlobal_onClickListener);
@@ -88,18 +93,14 @@ public class DetalleAlbaranFragment extends Fragment {
     };
 
 
-    private void refrescarDatos() {
+    private void cargaInicial() {
         mOperacionesBaseDatos = new OperacionesBaseDatos(esteContexto);
 
-        valorUltimaLinea = mOperacionesBaseDatos.ultimaLineaAlbaran(codigoAlbaranObtenido);
+
 
         ultimaLinea = (TextView) getView().findViewById(R.id.tvNumeroLineas);
 
 
-        ultimaLinea.setText(String.valueOf(valorUltimaLinea));
-
-        // edicion
-        mDetalleAlbaranes = mOperacionesBaseDatos.verListaDetalleAlbaran(codigoAlbaranObtenido);
 
 
         // Obtener el Recycler
@@ -111,11 +112,6 @@ public class DetalleAlbaranFragment extends Fragment {
         recycler.setLayoutManager(lManager);
 
 
-        // Crear un nuevo adaptador
-
-        adapter = new ListaAlbaranesDetalleAdapter(mDetalleAlbaranes);
-        recycler.setAdapter(adapter);
-
         //Este metodo esta implementando la clase RecyclerItemClickListener que he creado
         recycler.addOnItemTouchListener(
                 new RecyclerItemClickListener(esteContexto, new RecyclerItemClickListener.OnItemClickListener() {
@@ -124,20 +120,60 @@ public class DetalleAlbaranFragment extends Fragment {
 
                         DetalleAlbaranes detalleElegido = mDetalleAlbaranes.get(position);
 
-                        Toast.makeText(esteContexto,"Has marcado la linea " + String.valueOf(detalleElegido.getLinea()) , Toast.LENGTH_LONG).show();
+                        valorCodigoAlbaran = detalleElegido.getCodigoAlbaran();
+                        valorLineaAlbaran = String.valueOf(detalleElegido.getLinea());
 
+                        abrirDetalle(valorCodigoAlbaran,valorLineaAlbaran);
+//                        Intent intento = new Intent(esteContexto, FormularioAlbaranesDetalle.class);
+//                        intento.putExtra("codigoAlbaran", valorCodigoAlbaran);
+//                        intento.putExtra("linea", valorLineaAlbaran);
+//                        startActivity(intento);
 
                     }
                 })
         );
 
+
     }
 
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        valorUltimaLinea = mOperacionesBaseDatos.ultimaLineaAlbaran(codigoAlbaranObtenido);
+        ultimaLinea.setText(String.valueOf(valorUltimaLinea));
+
+
+        mDetalleAlbaranes = mOperacionesBaseDatos.verListaDetalleAlbaran(codigoAlbaranObtenido);
+        adapter = new ListaAlbaranesDetalleAdapter(mDetalleAlbaranes);
+        recycler.setAdapter(adapter);
+
+    }
+
+    public void abrirDetalle(String codigo, String linea){
+
+        Intent intento = new Intent(esteContexto, FormularioAlbaranesDetalle.class);
+        intento.putExtra("codigoAlbaran", codigo);
+        intento.putExtra("linea", linea);
+        startActivity(intento);
+
+    }
 
     public void nuevaLinea(){
+        int nuevaLinea = valorUltimaLinea+1;
+        String nuevaLineaTexto = String.valueOf(nuevaLinea);
+
         mOperacionesBaseDatos = new OperacionesBaseDatos(esteContexto);
-        mOperacionesBaseDatos.nuevoDetalleAlbaran(valorUltimaLinea,codigoAlbaranObtenido);
+        mOperacionesBaseDatos.nuevoDetalleAlbaran(nuevaLinea,codigoAlbaranObtenido);
+
+        valorUltimaLinea = mOperacionesBaseDatos.ultimaLineaAlbaran(codigoAlbaranObtenido);
+        ultimaLinea.setText(String.valueOf(valorUltimaLinea));
+
+        abrirDetalle(codigoAlbaranObtenido,nuevaLineaTexto);
 
     }
+
 
 }

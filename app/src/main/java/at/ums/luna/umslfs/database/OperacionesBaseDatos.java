@@ -95,6 +95,7 @@ public class OperacionesBaseDatos {
             listaClientes.add(clientes);
         }
         cerrar();
+        cursor.close();
 
         return listaClientes;
     }
@@ -114,6 +115,7 @@ public class OperacionesBaseDatos {
             listaClientes.add(clientes);
         }
         cerrar();
+        cursor.close();
 
         return listaClientes;
     }
@@ -125,13 +127,6 @@ public class OperacionesBaseDatos {
 
     public List<CabeceraAlbaranes> verListaAlbaranesCabeceraCompleta(){
         leer();
-        String query = "SELECT " +
-                DBHelper.Tablas.CABECERA_ALBARANES + "." + DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "," +
-                DBHelper.Tablas.CABECERA_ALBARANES + "." + DBHelper.CabeceraAlbaranesColumnas.FECHA + "," +
-                DBHelper.Tablas.CLIENTES + "." + DBHelper.Clientes.NOMBRE +
-                " FROM " + DBHelper.Tablas.CLIENTES + " INNER JOIN " + DBHelper.Tablas.CABECERA_ALBARANES +
-                " ON " + DBHelper.Tablas.CLIENTES + "." + DBHelper.Clientes.ID + " = " +
-                DBHelper.Tablas.CABECERA_ALBARANES + "." + DBHelper.CabeceraAlbaranesColumnas.ID_CLIENTE ;
 
         String querySimple = "SELECT cabecera_albaranes.codigoAlbaran, " +
                 "cabecera_albaranes.fecha, clientes.nombre " +
@@ -152,6 +147,7 @@ public class OperacionesBaseDatos {
         }
 
         cerrar();
+        cursor.close();
         return listaAlbaranes;
     }
 
@@ -183,6 +179,7 @@ public class OperacionesBaseDatos {
         albaran.setEmailCliente(c.getString(c.getColumnIndex("email")));
 
         cerrar();
+        c.close();
 
         return albaran;
 
@@ -199,7 +196,7 @@ public class OperacionesBaseDatos {
         int ultimoAlbaran = c.getInt(c.getColumnIndex("idMaximo"));
 
         cerrar();
-
+        c.close();
         return ultimoAlbaran;
     }
 
@@ -282,7 +279,7 @@ public class OperacionesBaseDatos {
 
         int ultimoAlbaran = c.getInt(c.getColumnIndex("lineaMaxima"));
 
-
+        c.close();
         cerrar();
 
         Log.i("JUANJO", String.valueOf(ultimoAlbaran));
@@ -318,6 +315,7 @@ public class OperacionesBaseDatos {
             listaDetalleAlbaranes.add(detalles);
         }
         cerrar();
+        cursor.close();
 
         return listaDetalleAlbaranes;
     }
@@ -343,6 +341,7 @@ public class OperacionesBaseDatos {
         detalleAlbaranes.setTipo(cursor.getString(cursor.getColumnIndex(DBHelper.DetalleAlbarenesColumnas.TIPO)));
 
         cerrar();
+        cursor.close();
 
         return  detalleAlbaranes;
 

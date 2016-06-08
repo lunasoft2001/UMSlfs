@@ -12,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/colorPrimary">
+        android:background="@drawable/borde_imagen_dark"
+
+        android:padding="8dp"
+        android:elevation="16dp">
 
 
         <TextView
@@ -69,13 +72,15 @@
                 android:paddingBottom="8dp"
                 android:paddingRight="4dp">
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="@string/albaranes"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"
                     android:onClick="botonListaAlbaranes"/>
 
@@ -84,7 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="@string/botonClientes"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
@@ -97,7 +103,8 @@
                     android:text="----"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"/>
 
 
@@ -113,13 +120,14 @@
                 android:paddingLeft="8dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="8dp"
-                android:paddingRight="4dp">
+                android:paddingRight="8dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="----"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"/>
@@ -128,7 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:text="----"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"/>
@@ -139,7 +148,8 @@
                     android:text="@string/datos_trabajador"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/borde_imagen_accent"
+                    android:elevation="4dp"
                     android:gravity="center"
                     android:onClick="botonEditarTrabajador"/>
 

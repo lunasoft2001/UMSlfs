@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,8 +27,7 @@
 
         </android.support.v4.view.PagerTabStrip>
 
-
-    </android.support.v4.view.ViewPager>
+      </android.support.v4.view.ViewPager>
 
 
 </RelativeLayout>

@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int ULTIMO_NUMERO_ALBARAN;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
