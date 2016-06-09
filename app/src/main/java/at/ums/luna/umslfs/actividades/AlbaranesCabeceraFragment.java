@@ -4,29 +4,32 @@ package at.ums.luna.umslfs.actividades;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import at.ums.luna.umslfs.R;
-import at.ums.luna.umslfs.adaptadores.DialogoListaClientes;
+import at.ums.luna.umslfs.adaptadores.DialogoListaCampoClientes;
+import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
 import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
 import at.ums.luna.umslfs.modelos.Clientes;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +46,12 @@ public class AlbaranesCabeceraFragment extends Fragment{
     TextView idCliente;
     TextView nombreCliente;
     TextView direccionCliente;
+
+    int textlength = 0;
+    private EditText et;
+    ListView lv;
+    private ArrayList<String> array_sort = new ArrayList<String>();
+    private String listview_array[];
 
 
 
@@ -166,24 +175,33 @@ public class AlbaranesCabeceraFragment extends Fragment{
 
     private void seleccionarCliente(){
 
-        final List<Clientes> listaDeClientes= mOperacionesBaseDatos.verListaClientesCompletaPorNombre();
+        String[]camposMostrados = {DBHelper.Clientes.NOMBRE};
+
+        final ArrayList<String> listaDeClientesInicial= mOperacionesBaseDatos.datosCampoClientes(camposMostrados);
 
         final Dialog dialog = new Dialog(esteContexto);
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialogo_lista_clientes, null);
 
-        ListView lv = (ListView) view.findViewById(R.id.lista1);
-        DialogoListaClientes dialogo = new DialogoListaClientes(esteContexto, (ArrayList<Clientes>) listaDeClientes);
+        lv = (ListView) view.findViewById(R.id.lista1);
+        et = (EditText) view.findViewById(R.id.etBusqueda);
+
+        DialogoListaCampoClientes dialogo = new DialogoListaCampoClientes(esteContexto, listaDeClientesInicial);
 
         lv.setAdapter(dialogo);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                idCliente.setText(String.valueOf(listaDeClientes.get(position).getId()));
-                nombreCliente.setText(listaDeClientes.get(position).getNombre());
-                direccionCliente.setText(listaDeClientes.get(position).getDireccion());
+                String valorObtenido = listaDeClientesInicial.get(position).toString();
 
-                //cierra Dialogo
+                Clientes clienteElegido = mOperacionesBaseDatos.obtenerClienteAlElegirEnDialogo(valorObtenido);
+
+
+                idCliente.setText(String.valueOf(clienteElegido.getId()));
+                nombreCliente.setText((clienteElegido.getNombre()));
+                direccionCliente.setText(clienteElegido.getDireccion());
+
                 dialog.cancel();
             }
         });
@@ -191,8 +209,60 @@ public class AlbaranesCabeceraFragment extends Fragment{
         dialog.setContentView(view);
         dialog.show();
 
+        listview_array = listaDeClientesInicial.toArray(new String[0]);
+
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textlength = et.getText().length();
+                array_sort.clear();
+
+                for (int i = 0; i < listview_array.length; i++) {
+                    if (textlength <= listview_array[i].length()) {
+                        if (et.getText().toString().equalsIgnoreCase((String) listview_array[i].subSequence(0, textlength))) {
+                            array_sort.add(listview_array[i]);
+                        }
+                    }
+                }
+
+                DialogoListaCampoClientes dialogoFinal = new DialogoListaCampoClientes(esteContexto, array_sort);
+
+                lv.setAdapter(dialogoFinal);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                        String valorObtenido = array_sort.get(position).toString();
+
+                        Clientes clienteElegido1 = mOperacionesBaseDatos.obtenerClienteAlElegirEnDialogo(valorObtenido);
+
+
+                        idCliente.setText(String.valueOf(clienteElegido1.getId()));
+                        nombreCliente.setText((clienteElegido1.getNombre()));
+                        direccionCliente.setText(clienteElegido1.getDireccion());
+
+
+                        dialog.cancel();
+                    }
+                });
+
+            }
+        });
 
 
     }
+
 
 }

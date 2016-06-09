@@ -44,4 +44,6 @@
     <string name="lista_albaranes">Lista de Albaranes</string>
     <string name="detalle_eliminado">La linea %S ha sido borrada</string>
     <string name="lista_clientes">lista de clientes</string>
+    <string name="cliente_a_buscar">Cliente a buscar</string>
+    <string name="click_aqui_para_buscar_un_cliente">Click aqui para buscar un cliente</string>
 </resources>

@@ -10,13 +10,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="at.ums.luna.umslfs.actividades.ListaClientes">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="8dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@drawable/borde_imagen_accent"
+        android:id="@+id/barraBusqueda">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Busqueda:"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etBusqueda"
+            android:hint="test"
+            android:layout_below="@+id/barraBusqueda"
+            android:layout_centerHorizontal="true"/>
+
+    </LinearLayout>
+
+
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/reciclador"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+
+        android:layout_below="@+id/barraBusqueda"
+        android:layout_alignParentEnd="true"/>
+
+
 
 
 </RelativeLayout>

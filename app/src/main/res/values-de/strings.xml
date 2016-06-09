@@ -41,6 +41,8 @@
     <string name="lista_albaranes">Lieferscheineliste</string>
     <string name="detalle_eliminado">Die Position %S ist gelöscht</string>
     <string name="lista_clientes">Kundenliste</string>
+    <string name="cliente_a_buscar">Kunde für suchen</string>
+    <string name="click_aqui_para_buscar_un_cliente">Click hier für ein Kunde suchen</string>
 
 </resources>
 

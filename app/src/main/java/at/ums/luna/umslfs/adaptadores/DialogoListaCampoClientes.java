@@ -13,18 +13,19 @@ import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.modelos.Clientes;
 
 /**
- * Created by luna-aleixos on 07.06.2016.
+ * Created by luna-aleixos on 09.06.2016.
  */
-public class DialogoListaClientes extends BaseAdapter{
+public class DialogoListaCampoClientes extends BaseAdapter{
 
-    private ArrayList<Clientes> listData;
+    private ArrayList<String> listData;
 
     private LayoutInflater layoutInflater;
 
-    public DialogoListaClientes(Context context, ArrayList<Clientes> listData) {
+    public DialogoListaCampoClientes(Context context, ArrayList<String> listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(context);
     }
+
 
     @Override
     public int getCount() {
@@ -41,27 +42,25 @@ public class DialogoListaClientes extends BaseAdapter{
         return position;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.dialogo_lista_clientes_items, null);
             holder = new ViewHolder();
-            holder.idCliente = (TextView) convertView.findViewById(R.id.idCliente);
-            holder.nombreCliente = (TextView) convertView.findViewById(R.id.nombreCliente);
+            holder.campoResultante = (TextView) convertView.findViewById(R.id.campoResultante);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.idCliente.setText(String.valueOf(listData.get(position).getId()));
-        holder.nombreCliente.setText(listData.get(position).getNombre().toString());
+
+        holder.campoResultante.setText(listData.get(position));
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView idCliente;
-        TextView nombreCliente;
+        TextView campoResultante;
     }
-
 }

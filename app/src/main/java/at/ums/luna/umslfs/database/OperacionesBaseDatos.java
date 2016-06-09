@@ -121,6 +121,52 @@ public class OperacionesBaseDatos {
     }
 
 
+    public ArrayList<String> datosCampoClientes(String[] nombreColumna){
+        leer();
+        Cursor cursor = db.query(DBHelper.Tablas.CLIENTES,nombreColumna,null,null,null,null,null);
+        cursor.moveToFirst();
+        ArrayList<String> lista = new ArrayList<String>();
+        do{
+            lista.add(cursor.getString(0));
+        }while (cursor.moveToNext());
+
+        return lista;
+    }
+
+
+    public Clientes obtenerClienteAlElegirEnDialogo(String textoObtenido) {
+        leer();
+
+        String[] columnasAMostrar = {DBHelper.Clientes.ID};
+        String[] args ={textoObtenido};
+        String criterioSeleccion = DBHelper.Clientes.NOMBRE + "=?";
+
+        Cursor cursor = db.query(DBHelper.Tablas.CLIENTES,columnasAMostrar,criterioSeleccion,args,null,null,null);
+
+        cursor.moveToFirst();
+
+        int resultado = cursor.getInt(cursor.getColumnIndex(DBHelper.Clientes.ID));
+
+        cursor.close();
+
+        String[] args1 ={String.valueOf(resultado)};
+        String criterioSeleccion1 = DBHelper.Clientes.ID + "=?";
+
+        Cursor cursor1 = db.query(DBHelper.Tablas.CLIENTES,todasColumnasClientes,criterioSeleccion1,args1,null,null,null);
+
+        cursor1.moveToFirst();
+
+        Clientes cliente = new Clientes();
+        cliente.setId(cursor1.getInt(cursor1.getColumnIndex(DBHelper.Clientes.ID)));
+        cliente.setNombre(cursor1.getString(cursor1.getColumnIndex(DBHelper.Clientes.NOMBRE)));
+        cliente.setDireccion(cursor1.getString(cursor1.getColumnIndex(DBHelper.Clientes.DIRECCION)));
+
+        cursor1.close();
+        cerrar();
+        return cliente;
+    }
+
+
     /**
      * ALBARANES CABECERA
      */
