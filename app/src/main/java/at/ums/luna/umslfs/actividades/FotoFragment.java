@@ -3,8 +3,13 @@ package at.ums.luna.umslfs.actividades;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import at.ums.luna.umslfs.R;
 
@@ -73,6 +80,8 @@ public class FotoFragment extends Fragment {
         if(fichero.exists()){
             Bitmap bMap = BitmapFactory.decodeFile(archivo);
             imagen.setImageBitmap(bMap);
+
+            rodarFoto(bMap);
         }
 
 
@@ -96,14 +105,54 @@ public class FotoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
+
+
+            //Metodo inicial
             Bitmap bMap = BitmapFactory.decodeFile(
                     tempDir + nombreFoto);
             imagen.setImageBitmap(bMap);
 
-            Toast.makeText(esteContexto, R.string.foto_guardada, Toast.LENGTH_SHORT).show();
-        } else
-        {Toast.makeText(esteContexto, R.string.error_guardar_foto, Toast.LENGTH_SHORT).show();
+
+            rodarFoto(bMap);
 
         }
+
     }
+
+    public void rodarFoto(Bitmap bMap){
+
+        String archivo = tempDir + nombreFoto;
+        File imageFile = new File(archivo);
+
+        try {
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+            int rotate = 0;
+            switch (orientation){
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate-=90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate=180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate=90;
+                    break;
+            }
+
+            Log.i("JUANJO","orientation = " + orientation + " - rotate = " + rotate);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotate);
+
+            Bitmap nuevoBitmap = Bitmap.createBitmap(bMap,0,0,bMap.getWidth(),bMap.getHeight(),matrix,true);
+
+            imagen.setImageBitmap(nuevoBitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
 }

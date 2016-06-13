@@ -1,13 +1,16 @@
 package at.ums.luna.umslfs.actividades;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -61,18 +64,22 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mOperacionesBaseDatos.nuevaCabeceraAlbaran(ultimoAlbaran,idTrabajador);
+                //Comprobamos si existe albaran previo
+                if (ultimoAlbaran == 0){
+                    crearNuevaTemporadaAlbaran();
 
 
-                int nuevoAlbaran = ultimoAlbaran + 1;
-                String nuevoCodigoAlbaran = idTrabajador + String.valueOf(nuevoAlbaran);
+                }else {
 
-                Log.i("JUANJO", "Albaran " + nuevoCodigoAlbaran + " creado");
+                    mOperacionesBaseDatos.nuevaCabeceraAlbaran(ultimoAlbaran, idTrabajador);
 
+                    int nuevoAlbaran = ultimoAlbaran + 1;
+                    String nuevoCodigoAlbaran = idTrabajador + String.valueOf(nuevoAlbaran);
 
-                Intent intento = new Intent(ListaAlbaranesCabecera.this,FormularioAlbaranesCabecera.class);
-                intento.putExtra("codigoAlbaran",nuevoCodigoAlbaran);
-                startActivity(intento);
+                    Intent intento = new Intent(ListaAlbaranesCabecera.this, FormularioAlbaranesCabecera.class);
+                    intento.putExtra("codigoAlbaran", nuevoCodigoAlbaran);
+                    startActivity(intento);
+                }
             }
         });
 
@@ -124,6 +131,52 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
 
         adapter = new ListaAlbaranesCabeceraAdapter(mCabeceraAlbaranes);
         recycler.setAdapter(adapter);
+
+    }
+
+    public void crearNuevaTemporadaAlbaran(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText etIdAlbaran = new EditText(ListaAlbaranesCabecera.this);
+
+
+        etIdAlbaran.setHint("codigo");
+        builder.setMessage(getString(R.string.mensaje_nueva_temporada_pasword))
+                .setTitle(this.getString(R.string.nueva_temporada))
+                .setCancelable(false)
+                .setView(etIdAlbaran)
+                .setNegativeButton(this.getString(R.string.Cancelar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .setPositiveButton(this.getString(R.string.continuar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                int nuevoNumAlbaran = Integer.parseInt(etIdAlbaran.getText().toString());
+                                nuevoNumAlbaran--;
+                                mOperacionesBaseDatos.nuevaCabeceraAlbaran(nuevoNumAlbaran,idTrabajador);
+
+                                int nuevoAlbaran = nuevoNumAlbaran + 1;
+                                String nuevoCodigoAlbaran = idTrabajador + String.valueOf(nuevoAlbaran);
+                                Intent intento = new Intent(ListaAlbaranesCabecera.this, FormularioAlbaranesCabecera.class);
+                                intento.putExtra("codigoAlbaran", nuevoCodigoAlbaran);
+                                startActivity(intento);
+
+
+
+
+
+
+
+
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
 
     }
 }

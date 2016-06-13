@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".inicio.MainActivity">
+        <activity android:name=".inicio.MainActivity"
+                  android:icon="@drawable/ums_ico">
         </activity>
         <activity android:name=".actividades.FormularioTrabajador">
         </activity>

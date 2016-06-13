@@ -35,11 +35,13 @@ public class OperacionesBaseDatos {
     public void abrir(){
         Log.i("JUANJO", "BD abierta para escribir");
         db = dbHelper.getWritableDatabase();
+        // db.execSQL("PRAGMA foreign_keys=ON");
     }
 
     public void leer(){
         Log.i("JUANJO", "BD abierta para leer");
         db = dbHelper.getReadableDatabase();
+        // db.execSQL("PRAGMA foreign_keys=ON");
     }
 
     public void cerrar(){
@@ -286,6 +288,9 @@ public class OperacionesBaseDatos {
 
     public void eliminarCabeceraAlbaran(String[] idAlbaran, Context context){
         abrir();
+
+        db.delete(DBHelper.Tablas.DETALLE_ALBARANES,
+                DBHelper.DetalleAlbarenesColumnas.CODIGO_ALBARAN + "=?", idAlbaran);
         db.delete(DBHelper.Tablas.CABECERA_ALBARANES,
                 DBHelper.CabeceraAlbaranesColumnas.CODIGO_ALBARAN + "= ?"  , idAlbaran);
 
@@ -308,8 +313,6 @@ public class OperacionesBaseDatos {
         valores.put(DBHelper.DetalleAlbarenesColumnas.LINEA, ultimaLinea);
 
         db.insert(DBHelper.Tablas.DETALLE_ALBARANES,null,valores);
-
-        Log.i("JUANJO", "Linea " + ultimaLinea + " creada en el albaran " + codigoAlbaran);
     }
 
     public int ultimaLineaAlbaran(String codigoAlbaran){
@@ -328,7 +331,6 @@ public class OperacionesBaseDatos {
         c.close();
         cerrar();
 
-        Log.i("JUANJO", String.valueOf(ultimoAlbaran));
 
         return ultimoAlbaran;
 

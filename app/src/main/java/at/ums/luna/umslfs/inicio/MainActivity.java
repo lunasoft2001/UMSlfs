@@ -1,25 +1,23 @@
 package at.ums.luna.umslfs.inicio;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import at.ums.luna.umslfs.R;
+import at.ums.luna.umslfs.actividades.FormularioAlbaranesCabecera;
 import at.ums.luna.umslfs.actividades.FormularioTrabajador;
 import at.ums.luna.umslfs.actividades.ListaAlbaranesCabecera;
 import at.ums.luna.umslfs.actividades.ListaClientes;
-import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
-import at.ums.luna.umslfs.modelos.Trabajador;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
 
     }
@@ -78,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intento);
 
         }
+
+
     }
 
     @Override
@@ -104,5 +102,79 @@ public class MainActivity extends AppCompatActivity {
         intento.putExtra("idTrabajador", idTrabajadorActual);
         startActivity(intento);
     }
+
+    public void botonNuevaTemporadaAlbaranComprobacion(View v){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText etPassword = new EditText(MainActivity.this);
+
+        etPassword.setHint("password");
+
+        builder.setMessage(getString(R.string.mensaje_nueva_temporada_pasword))
+                .setTitle(this.getString(R.string.nueva_temporada))
+                .setCancelable(false)
+                .setView(etPassword)
+                .setNegativeButton(this.getString(R.string.Cancelar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .setPositiveButton(this.getString(R.string.continuar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                String introPass = etPassword.getText().toString();
+
+                                if (introPass.equals("1234")){
+                                    crearNuevaTemporadaAlbaran();
+
+
+                                } else {
+                                    Toast.makeText(MainActivity.this, R.string.pass_false,Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
+    public void crearNuevaTemporadaAlbaran(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText etIdAlbaran = new EditText(MainActivity.this);
+
+
+        etIdAlbaran.setHint("codigo");
+        builder.setMessage(getString(R.string.mensaje_nueva_temporada_pasword))
+                .setTitle(this.getString(R.string.nueva_temporada))
+                .setCancelable(false)
+                .setView(etIdAlbaran)
+                .setNegativeButton(this.getString(R.string.Cancelar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .setPositiveButton(this.getString(R.string.continuar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                int nuevoNumAlbaran = Integer.parseInt(etIdAlbaran.getText().toString());
+                                nuevoNumAlbaran--;
+                                mOperacionesBaseDatos.nuevaCabeceraAlbaran(nuevoNumAlbaran,idTrabajadorActual);
+
+                                botonListaAlbaranes(null);
+
+
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
 
 }

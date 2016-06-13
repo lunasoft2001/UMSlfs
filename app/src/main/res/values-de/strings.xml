@@ -43,6 +43,11 @@
     <string name="lista_clientes">Kundenliste</string>
     <string name="cliente_a_buscar">Kunde für suchen</string>
     <string name="click_aqui_para_buscar_un_cliente">Click hier für ein Kunde suchen</string>
+    <string name="nuevo_albaran">Nueues Lieferschein</string>
+    <string name="nueva_temporada">Neue Saison</string>
+    <string name="mensaje_nueva_temporada_pasword">Es wird eine nuee Lieferschain mit neues Nummer machen. Bitte Password eintragen:</string>
+    <string name="mensaje_nueva_temporada_codigo">Schreiben Sie der neue Lieferscheinnummer -6 digiten-:</string>
+    <string name="pass_false">Die Passowrd ist falsch</string>
 
 </resources>
 

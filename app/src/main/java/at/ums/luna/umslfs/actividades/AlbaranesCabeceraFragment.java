@@ -1,6 +1,7 @@
 package at.ums.luna.umslfs.actividades;
 
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,18 +10,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 import at.ums.luna.umslfs.R;
@@ -34,7 +37,7 @@ import at.ums.luna.umslfs.modelos.Clientes;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AlbaranesCabeceraFragment extends Fragment{
+public class AlbaranesCabeceraFragment extends Fragment {
 
     private String codigoAlbaranObtenido;
 
@@ -52,6 +55,8 @@ public class AlbaranesCabeceraFragment extends Fragment{
     ListView lv;
     private ArrayList<String> array_sort = new ArrayList<String>();
     private String listview_array[];
+
+
 
 
 
@@ -82,6 +87,11 @@ public class AlbaranesCabeceraFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+
         refrescarDatos();
 
         //Codigo para el onClickListener
@@ -89,6 +99,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
         getView().findViewById(R.id.botonBorrarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonActualizarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.imageButtonElegirCliente).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.tvFecha).setOnClickListener(mGlobal_onClickListener);
 
     }
 
@@ -105,9 +116,13 @@ public class AlbaranesCabeceraFragment extends Fragment{
                     break;
                 case R.id.botonActualizarAlbaran:
                     Actualizar();
+                    getActivity().finish();
                     break;
                 case R.id.imageButtonElegirCliente:
                     seleccionarCliente();
+                    break;
+                case R.id.tvFecha:
+                    seleccionarFecha();
                     break;
 
             }
@@ -170,7 +185,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
 
         mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
 
-        getActivity().finish();
+
     }
 
     private void seleccionarCliente(){
@@ -201,6 +216,8 @@ public class AlbaranesCabeceraFragment extends Fragment{
                 idCliente.setText(String.valueOf(clienteElegido.getId()));
                 nombreCliente.setText((clienteElegido.getNombre()));
                 direccionCliente.setText(clienteElegido.getDireccion());
+
+                Actualizar();
 
                 dialog.cancel();
             }
@@ -253,6 +270,7 @@ public class AlbaranesCabeceraFragment extends Fragment{
                         nombreCliente.setText((clienteElegido1.getNombre()));
                         direccionCliente.setText(clienteElegido1.getDireccion());
 
+                        Actualizar();
 
                         dialog.cancel();
                     }
@@ -264,5 +282,13 @@ public class AlbaranesCabeceraFragment extends Fragment{
 
     }
 
+
+
+
+    private void seleccionarFecha(){
+
+
+
+    }
 
 }
