@@ -8,34 +8,24 @@
     tools:context=".inicio.MainActivity"
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?colorPrimary"-->
-        <!--android:elevation="4dp"-->
-        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/borde_imagen_dark"
-
-        android:padding="8dp"
-        android:elevation="16dp">
+        android:paddingRight="8dp">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/app_name"
-            android:id="@+id/tvTrabajador"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,8 +35,8 @@
             android:text="@string/textoUltimoAlbaran"
             android:id="@+id/tvMaxTumbatitulo"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/tvMaxAlbaran"
-            android:layout_toStartOf="@+id/tvMaxAlbaran"/>
+            android:layout_alignParentStart="true"
+            android:paddingLeft="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,14 +45,13 @@
             android:text="100"
             android:id="@+id/tvMaxAlbaran"
             android:layout_alignTop="@+id/tvMaxTumbatitulo"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_toEndOf="@+id/tvMaxTumbatitulo"/>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="20"
         android:id="@+id/scrollView">
 
 

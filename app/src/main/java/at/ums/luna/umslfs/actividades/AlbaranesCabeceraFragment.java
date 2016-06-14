@@ -49,7 +49,6 @@ public class AlbaranesCabeceraFragment extends Fragment {
     private OperacionesBaseDatos mOperacionesBaseDatos;
     private Context esteContexto;
 
-    TextView codigoAlbaran;
     TextView fecha;
     TextView idCliente;
     TextView nombreCliente;
@@ -139,13 +138,11 @@ public class AlbaranesCabeceraFragment extends Fragment {
         mOperacionesBaseDatos = new OperacionesBaseDatos(esteContexto);
         CabeceraAlbaranes albaranActual = mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
 
-        codigoAlbaran = (TextView)getView().findViewById(R.id.tvCodigoAlbaran);
         fecha = (TextView)getView().findViewById(R.id.tvFecha);
         idCliente = (TextView)getView().findViewById(R.id.tvIdCliente);
         nombreCliente = (TextView)getView().findViewById(R.id.tvNombreCliente);
         direccionCliente = (TextView)getView().findViewById(R.id.tvDireccionCliente);
 
-        codigoAlbaran.setText(codigoAlbaranObtenido);
         fecha.setText(albaranActual.getFecha().toString());
         idCliente.setText(String.valueOf(albaranActual.getIdCliente()));
         nombreCliente.setText(albaranActual.getNombreCliente());

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import at.ums.luna.umslfs.R;
@@ -20,6 +21,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
 
     private String codigoAlbaranObtenido;
+    private TextView numeroAlbaran;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,9 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         if (bundle != null){
             codigoAlbaranObtenido = bundle.getString("codigoAlbaran");
         }
+
+        numeroAlbaran = (TextView) findViewById(R.id.tvDetalle);
+        numeroAlbaran.setText(codigoAlbaranObtenido);
 
     }
 

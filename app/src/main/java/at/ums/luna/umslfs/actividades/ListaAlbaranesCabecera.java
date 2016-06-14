@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager lManager;
+    private Toolbar toolbar;
 
     /*
     Variables SOLO para SQLite
@@ -54,6 +56,9 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
         if (bundle != null){
             idTrabajador = bundle.getString("idTrabajador");
         }
+
+        //activamos la toolbar
+        setToolbar();
 
 
         /*
@@ -116,6 +121,15 @@ public class ListaAlbaranesCabecera extends AppCompatActivity {
         );
 
     }
+
+    private void setToolbar() {
+        //añadir la Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(getString(R.string.lista_albaranes));
+//        toolbar.setLogo(R.mipmap.ic_launcher);
+    }
+
 
     @Override
     protected void onResume() {

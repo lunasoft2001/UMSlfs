@@ -48,6 +48,7 @@
     <string name="mensaje_nueva_temporada_pasword">Es wird eine nuee Lieferschain mit neues Nummer machen. Bitte Password eintragen:</string>
     <string name="mensaje_nueva_temporada_codigo">Schreiben Sie der neue Lieferscheinnummer -6 digiten-:</string>
     <string name="pass_false">Die Passowrd ist falsch</string>
+    <string name="Trabajador">"Mitarbeiter:%s "</string>
 
 </resources>
 

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.ums.luna.umslfs.R;
-import at.ums.luna.umslfs.actividades.FormularioAlbaranesCabecera;
 import at.ums.luna.umslfs.actividades.FormularioTrabajador;
 import at.ums.luna.umslfs.actividades.ListaAlbaranesCabecera;
 import at.ums.luna.umslfs.actividades.ListaClientes;
@@ -26,30 +25,37 @@ public class MainActivity extends AppCompatActivity {
     private Cursor trabajadorActual;
 
 
-    private TextView nombreTrabajador;
     private TextView tvUltimoAlbaran;
-
+    private Toolbar toolbar;
 
     private String idTrabajadorActual;
     private String nombreTrabajadorActual;
     private int ultimoAlbaran;
 
-    private int ULTIMO_NUMERO_ALBARAN;
+//    private int ULTIMO_NUMERO_ALBARAN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //activamos la toolbar
+        setToolbar();
+
 
     }
 
+    private void setToolbar(){
+        //añadir la Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        nombreTrabajador = (TextView)findViewById(R.id.tvTrabajador);
         tvUltimoAlbaran = (TextView) findViewById(R.id.tvMaxAlbaran);
 
 
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         idTrabajadorActual = trabajadorActual.getString(1);
         nombreTrabajadorActual = trabajadorActual.getString(2);
 
-        nombreTrabajador.setText(nombreTrabajadorActual);
+        toolbar.setTitle(String.format(this.getString(R.string.Trabajador), nombreTrabajadorActual));
 
         //comprobacion si no esta configurado el trabajador
         if (idTrabajadorActual.equals("ßß")){

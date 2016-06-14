@@ -51,4 +51,5 @@
     <string name="mensaje_nueva_temporada_pasword">Se va a crear un nuevo albaran con la numeracion que usted elija. Introduzca password para continuar:</string>
     <string name="mensaje_nueva_temporada_codigo">Introduzca el codigo de Albaran -6 digitos-:</string>
     <string name="pass_false">La contraseña es incorrecta</string>
+    <string name="Trabajador">"Trabajador:%s "</string>
 </resources>
