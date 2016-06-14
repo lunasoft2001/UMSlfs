@@ -7,13 +7,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.DocumentException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import at.ums.luna.umslfs.R;
+import at.ums.luna.umslfs.adaptadores.PdfManager;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
+import at.ums.luna.umslfs.modelos.AlbaranCompleto;
+import at.ums.luna.umslfs.modelos.CabeceraAlbaranes;
+import at.ums.luna.umslfs.modelos.DetalleAlbaranes;
 
 public class FormularioAlbaranesCabecera extends FragmentActivity {
 
@@ -22,6 +33,18 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
     private String codigoAlbaranObtenido;
     private TextView numeroAlbaran;
+
+
+    //PDF
+    AlbaranCompleto invoiceObject = new AlbaranCompleto();
+    private String INVOICES_FOLDER = "Invoices";
+    private String FILENAME = "InvoiceSample.pdf";
+    //Declaramos la clase PdfManager
+    private PdfManager pdfManager = null;
+
+
+    //fin pdf
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +63,59 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
         numeroAlbaran = (TextView) findViewById(R.id.tvDetalle);
         numeroAlbaran.setText(codigoAlbaranObtenido);
+
+
+        // Comienza el codigo para hacer PDF
+
+        //Creamos una factura desde nuestro código solo para poder generar el documento PDF
+        //con esta información
+        createInvoiceObject();
+
+
+        try {
+            //Instanciamos la clase PdfManager
+            pdfManager = new PdfManager(FormularioAlbaranesCabecera.this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        ImageButton create_pdf = (ImageButton) findViewById(R.id.botonCrearPDF);
+        ImageButton read_pdf = (ImageButton)findViewById(R.id.botonVerPDF);
+        ImageButton send_email_pdf = (ImageButton)findViewById(R.id.botonEnviarPDF);
+
+        create_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Create PDF document
+                assert pdfManager != null;
+                pdfManager.createPdfDocument(invoiceObject);
+            }
+        });
+
+        read_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assert pdfManager != null;
+                pdfManager.showPdfFile(INVOICES_FOLDER + File.separator + FILENAME,FormularioAlbaranesCabecera.this);
+            }
+        });
+
+        send_email_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailTo ="luna.ums@gmail.com";
+                String emailCC ="juanjolunabowling@gmail.com";
+                assert pdfManager != null;
+                pdfManager.sendPdfByEmail(INVOICES_FOLDER + File.separator + FILENAME,emailTo,emailCC, FormularioAlbaranesCabecera.this);
+            }
+        });
+
+
+        // finaliza el codigo para PDF
+
 
     }
 
@@ -105,6 +181,40 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         finish();
     }
 
+
+    //Codigo pdf
+
+    //Creando la factura por hard code
+    private void createInvoiceObject(){
+        invoiceObject.codigoAlbaran="JJ1234";
+        invoiceObject.fecha="22.04.1974";
+        invoiceObject.idCliente = 1111;
+        invoiceObject.nombreCliente = "Nombre pepito";
+        invoiceObject.direccionCliente = "Direccion pepito";
+        invoiceObject.telefonoCliente = "11 8 11";
+        invoiceObject.emailCliente = "nose@123.com";
+
+        DetalleAlbaranes detalle1 = new DetalleAlbaranes();
+        detalle1.setCodigoAlbaran("JJ1234");
+        detalle1.setLinea(1);
+        detalle1.setDetalle("blablabla11111");
+        detalle1.setCantidad(111);
+        detalle1.setTipo("to1");
+
+        DetalleAlbaranes detalle2 = new DetalleAlbaranes();
+        detalle2.setCodigoAlbaran("JJ1234");
+        detalle2.setLinea(2);
+        detalle2.setDetalle("blablabla2222222222222");
+        detalle2.setCantidad(222);
+        detalle2.setTipo("to2");
+
+
+        invoiceObject.listaDetallesAlbaran = new ArrayList<DetalleAlbaranes>();
+        invoiceObject.listaDetallesAlbaran.add(detalle1);
+        invoiceObject.listaDetallesAlbaran.add(detalle2);
+    }
+
+    //finaliza codiog PDF
 
 
 

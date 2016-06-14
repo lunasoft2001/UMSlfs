@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Lieferschein UMS</string>
     <string name="textoUltimoAlbaran">Letzte Lieferschein:</string>
     <string name="botonClientes">Kundenliste</string>
@@ -49,6 +50,7 @@
     <string name="mensaje_nueva_temporada_codigo">Schreiben Sie der neue Lieferscheinnummer -6 digiten-:</string>
     <string name="pass_false">Die Passowrd ist falsch</string>
     <string name="Trabajador">"Mitarbeiter:%s "</string>
+    <string name="pdf_creado">PDF file created successfully</string>
 
 </resources>
 

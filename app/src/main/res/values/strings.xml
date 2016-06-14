@@ -2,6 +2,7 @@
 
     <string name="external_dir">UMSlieferschein</string>
 
+
     <string name="app_name">Albaranes UMS</string>
     <string name="textoUltimoAlbaran">Último albarán:</string>
     <string name="botonClientes">Lista Clientes</string>
@@ -52,4 +53,19 @@
     <string name="mensaje_nueva_temporada_codigo">Introduzca el codigo de Albaran -6 digitos-:</string>
     <string name="pass_false">La contraseña es incorrecta</string>
     <string name="Trabajador">"Trabajador:%s "</string>
+
+
+    <string name="invoice_number">"Lieferscheinnummer: "</string>
+    <string name="invoice_date">"Datum: "</string>
+    <string name="company">"Firma: "</string>
+    <string name="client_title">"Title"</string>
+    <string name="client_name">"Name "</string>
+    <string name="detail_code">"Id "</string>
+    <string name="detail_description">"Detail "</string>
+    <string name="detail_amount">"Summe "</string>
+    <string name="detail_price">"precio--- "</string>
+    <string name="detail_total">"total--- "</string>
+    <string name="pdf_creado">PDF file created successfully</string>
+
+
 </resources>
