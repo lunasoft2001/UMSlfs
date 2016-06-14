@@ -3,6 +3,7 @@ package at.ums.luna.umslfs.actividades;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,11 +13,13 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +27,11 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 
 import at.ums.luna.umslfs.R;
+import at.ums.luna.umslfs.adaptadores.DatePickerFragment;
 import at.ums.luna.umslfs.adaptadores.DialogoListaCampoClientes;
 import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
@@ -283,12 +288,17 @@ public class AlbaranesCabeceraFragment extends Fragment {
     }
 
 
-
-
     private void seleccionarFecha(){
-
+        DatePickerFragment newFragment =  new  DatePickerFragment();
+        newFragment.show(getFragmentManager(),"datePicker");
 
 
     }
+
+
+
+
+
+
 
 }
