@@ -1,6 +1,8 @@
 package at.ums.luna.umslfs.actividades;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -63,6 +65,8 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
         numeroAlbaran = (TextView) findViewById(R.id.tvDetalle);
         numeroAlbaran.setText(codigoAlbaranObtenido);
+
+        mOperacionesBaseDatos = new OperacionesBaseDatos(this);
 
 
         // Comienza el codigo para hacer PDF
@@ -182,40 +186,25 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
     }
 
 
-    //Codigo pdf
-
-    //Creando la factura por hard code
+    //Crea el documento importando los datos
     private void createInvoiceObject(){
-        invoiceObject.codigoAlbaran="JJ1234";
-        invoiceObject.fecha="22.04.1974";
-        invoiceObject.idCliente = 1111;
-        invoiceObject.nombreCliente = "Nombre pepito";
-        invoiceObject.direccionCliente = "Direccion pepito";
-        invoiceObject.telefonoCliente = "11 8 11";
-        invoiceObject.emailCliente = "nose@123.com";
-
-        DetalleAlbaranes detalle1 = new DetalleAlbaranes();
-        detalle1.setCodigoAlbaran("JJ1234");
-        detalle1.setLinea(1);
-        detalle1.setDetalle("blablabla11111");
-        detalle1.setCantidad(111);
-        detalle1.setTipo("to1");
-
-        DetalleAlbaranes detalle2 = new DetalleAlbaranes();
-        detalle2.setCodigoAlbaran("JJ1234");
-        detalle2.setLinea(2);
-        detalle2.setDetalle("blablabla2222222222222");
-        detalle2.setCantidad(222);
-        detalle2.setTipo("to2");
 
 
-        invoiceObject.listaDetallesAlbaran = new ArrayList<DetalleAlbaranes>();
-        invoiceObject.listaDetallesAlbaran.add(detalle1);
-        invoiceObject.listaDetallesAlbaran.add(detalle2);
+        CabeceraAlbaranes cabeceraActual =  mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
+
+        invoiceObject.codigoAlbaran= cabeceraActual.getCodigoAlbaran() ;
+        invoiceObject.fecha= cabeceraActual.getFecha();
+        invoiceObject.idCliente = cabeceraActual.getIdCliente();
+        invoiceObject.nombreCliente = cabeceraActual.getNombreCliente();
+        invoiceObject.direccionCliente = cabeceraActual.getDireccionCliente();
+        invoiceObject.telefonoCliente = cabeceraActual.getTelefonoCliente();
+        invoiceObject.emailCliente = cabeceraActual.getEmailCliente();
+
+
+        invoiceObject.listaDetallesAlbaran = mOperacionesBaseDatos.verListaDetalleAlbaran(codigoAlbaranObtenido);
+
+
     }
-
-    //finaliza codiog PDF
-
 
 
 }

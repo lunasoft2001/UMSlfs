@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.modelos.AlbaranCompleto;
@@ -165,8 +166,8 @@ public class PdfManager {
         // Adicionamos una línea en blanco
         addEmptyLine(preface, 1);
         // Adicionamos el títulos de la Factura y el número
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.id, catFont));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + new Date(), italicFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.codigoAlbaran, catFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha, italicFont));
 
         //Adicionamos los datos de la Empresa
         preface.add(new Paragraph(mContext.getResources().getString(R.string.company) + " " + "UMS",smallFont));
@@ -193,7 +194,7 @@ public class PdfManager {
     }
 
     //Creamos el contenido de la factura, las líneas con los artículos.
-    private static void addInvoiceContent(Document document, java.util.List<DetalleAlbaranes> invoiceDetail) throws DocumentException {
+    private static void addInvoiceContent(Document document, List<DetalleAlbaranes> invoiceDetail) throws DocumentException {
 
         Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 1);
@@ -340,7 +341,7 @@ public class PdfManager {
         Bitmap logoGirado = rodarImagen(logoReducido, nombreFotoFirma);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitMap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        logoGirado.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] bitMapData = stream.toByteArray();
         Image image = Image.getInstance(bitMapData);
         //Posicionamos la imagen el el documento
@@ -351,12 +352,12 @@ public class PdfManager {
     //Procedimiento para adicionar una imagen al documento PDF
     private static void addImage(Document document) throws IOException, DocumentException {
 
-        Bitmap bitMap = BitmapFactory.decodeFile(tempDir + "fotoJJ160001.jpg");
-        //Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ums_logo_completo);
+//        Bitmap bitMap = BitmapFactory.decodeFile(tempDir + "fotoJJ160001.jpg");
+        Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ums_logo_completo);
 
-        Bitmap logoReducido = redimensionarImagen(bitMap,480);
+        Bitmap logoReducido = redimensionarImagen(bitMap,120);
 
-        Bitmap logoGirado = rodarImagen(logoReducido,"fotoJJ160001.jpg");
+        Bitmap logoGirado = rodarImagen(logoReducido, "test.jpg");
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         logoGirado.compress(Bitmap.CompressFormat.JPEG, 80, stream);
@@ -367,10 +368,10 @@ public class PdfManager {
         document.add(image);
 
         //agregar foto
-        addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",120,100f,650f);
+        addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",240,100f,100f);
 
         //agregar firma
-        addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",120,200f,300f);
+        addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",120,400f,0f);
     }
 
 

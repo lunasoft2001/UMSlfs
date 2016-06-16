@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -92,21 +93,7 @@ public class AlbaranesCabeceraFragment extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
-
         refrescarDatos();
-
-//        //codigo para el datePicker
-//
-//        fecha.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onCreateDialog(DATE_DIALOG_ID);
-//            }
-//        });
-
-
-        //fin codigo para el datePPicker
-
 
 
         //Codigo para el onClickListener

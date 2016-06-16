@@ -23,7 +23,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
             <TextView
                 android:layout_width="120dp"
@@ -59,19 +60,23 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="5">
 
             <AutoCompleteTextView
                 android:id="@+id/detalle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/descripcion"/>
+                android:hint="@string/descripcion"
+                android:phoneNumber="false"
+                android:password="false"
+                android:inputType="textMultiLine"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="7"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -83,7 +88,6 @@
                     android:id="@+id/cantidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:singleLine="true"
                     android:hint="@string/cantidad"
                     android:inputType="numberDecimal"/>
@@ -99,7 +103,6 @@
                     android:id="@+id/tipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:singleLine="true"
                     android:hint="@string/tipo"/>
 
@@ -109,34 +112,49 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/borde_imagen_dark">
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/botonCancelarDetalle"
-                android:text="@string/Cancelar"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"/>
 
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/botonBorrarDetalle"
-                android:text="@string/borrar"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="@android:color/transparent"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/botonActualizarDetalle"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:src="@android:drawable/ic_menu_save"
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/botonActualizarDetalle"
-            android:text="@string/actualizar"
-            android:layout_gravity="center"/>
+
 
     </LinearLayout>
 

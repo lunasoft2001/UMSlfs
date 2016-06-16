@@ -19,10 +19,11 @@ public class CabeceraAlbaranes {
     private String nombreCliente;
     private String direccionCliente;
     private String emailCliente;
+    private String telefonoCliente;
 
     public CabeceraAlbaranes(int id, String fecha, int idCliente, String idTrabajador,
                              String codigoAlbaran, String nombreCliente,
-                         String direccionCliente, String emailCliente){
+                         String direccionCliente, String emailCliente, String telefonoCliente){
         this.id = id;
         this.fecha = fecha;
         this.idCliente = idCliente;
@@ -31,6 +32,7 @@ public class CabeceraAlbaranes {
         this.nombreCliente = nombreCliente;
         this.direccionCliente = direccionCliente;
         this.emailCliente = emailCliente;
+        this.telefonoCliente = telefonoCliente;
     }
 
     public  CabeceraAlbaranes(){
@@ -119,5 +121,13 @@ public class CabeceraAlbaranes {
 
     public void setCodigoAlbaran(String codigoAlbaran) {
         this.codigoAlbaran = codigoAlbaran;
+    }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
     }
 }
