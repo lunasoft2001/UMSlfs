@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.itextpdf.text.BaseColor;
@@ -51,11 +54,14 @@ public class PdfManager {
     //Usaremos arialuni.ttf que permite imprimir en nuestro PDF caracteres Unicode Cirílicos (Ruso, etc)
     private static BaseFont unicode;
 
+    private static String codigoAlbaranActual;
     //!!!Importante: La carpeta "assets/fonts/arialuni.ttf" debe estar creada en nuestro projecto en
     //la subcarpeta "PdfCreator/build/exploded-bundles/ComAndroidSupportAppcompactV71900.aar"
     //En el caso de que Android Studio la eliminara la copiamos manualmente
     //PdfCreator/build/exploded-bundles/ComAndroidSupportAppcompactV71900.aarassets/fonts/arialuni.ttf
     private static File fontFile = new File("assets/fonts/arialuni.ttf");
+
+    private static String tempDir = Environment.getExternalStorageDirectory() + "/" + APP_FOLDER_NAME +"/"; //borrar
 
     //Constructor set fonts and get context
     public PdfManager(Context context) throws IOException, DocumentException {
@@ -68,10 +74,16 @@ public class PdfManager {
         smallFont = new Font(unicode, 12,Font.NORMAL, BaseColor.BLACK);
         italicFont = new Font(unicode, 12,Font.ITALIC, BaseColor.BLACK);
         italicFontBold = new Font(unicode, 12,Font.ITALIC|Font.BOLD, BaseColor.BLACK);
+
+        codigoAlbaranActual = "JJ160001";
+
     }
 
     //Generando el documento PDF
-    public void createPdfDocument(AlbaranCompleto invoiceObject) {
+    public void createPdfDocument(AlbaranCompleto invoiceObject, String codigoAlbaranObtenido) {
+
+        codigoAlbaranActual = codigoAlbaranObtenido;
+
         try {
 
             //Creamos las carpetas en nuestro dispositivo, si existen las eliminamos.
@@ -269,17 +281,96 @@ public class PdfManager {
             paragraph.add(new Paragraph(" "));
         }
     }
+
+
+    //de Juanjo
+    private static Bitmap redimensionarImagen(Bitmap mBitmap, int newWidth){
+
+        float aspectRatio = mBitmap.getWidth()/ (float) mBitmap.getHeight();
+        int width = newWidth;
+        int height = Math.round(width/aspectRatio);
+        Bitmap imagenReducida = Bitmap.createScaledBitmap(mBitmap,width,height,false);
+        return  imagenReducida;
+
+    }
+    //de Juanjo
+    public static Bitmap rodarImagen(Bitmap bMap, String nombreFoto) {
+
+        String archivo = tempDir + nombreFoto;
+        File imageFile = new File(archivo);
+        Bitmap nuevoBitmap = bMap;
+
+        try {
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            int rotate = 0;
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate -= 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+            Log.i("JUANJO", "orientation = " + orientation + " - rotate = " + rotate);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotate);
+
+            nuevoBitmap = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), matrix, true);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return nuevoBitmap;
+    }
+
+    private static void addFotoFirma(Document document, String nombreFotoFirma,
+                                     int ancho, float horizontal, float vertical)
+            throws IOException, DocumentException {
+
+        Bitmap bitMap = BitmapFactory.decodeFile(tempDir + nombreFotoFirma);
+
+        Bitmap logoReducido = redimensionarImagen(bitMap,ancho);
+
+        Bitmap logoGirado = rodarImagen(logoReducido, nombreFotoFirma);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitMap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitMapData = stream.toByteArray();
+        Image image = Image.getInstance(bitMapData);
+        //Posicionamos la imagen el el documento
+        image.setAbsolutePosition(horizontal, vertical);
+        document.add(image);
+    }
+
     //Procedimiento para adicionar una imagen al documento PDF
     private static void addImage(Document document) throws IOException, DocumentException {
 
-        Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ums_logo_completo);
+        Bitmap bitMap = BitmapFactory.decodeFile(tempDir + "fotoJJ160001.jpg");
+        //Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ums_logo_completo);
+
+        Bitmap logoReducido = redimensionarImagen(bitMap,480);
+
+        Bitmap logoGirado = rodarImagen(logoReducido,"fotoJJ160001.jpg");
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitMap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        logoGirado.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] bitMapData = stream.toByteArray();
         Image image = Image.getInstance(bitMapData);
         //Posicionamos la imagen el el documento
         image.setAbsolutePosition(400f, 650f);
         document.add(image);
+
+        //agregar foto
+        addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",120,100f,650f);
+
+        //agregar firma
+        addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",120,200f,300f);
     }
 
 

@@ -91,7 +91,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
             public void onClick(View v) {
                 //Create PDF document
                 assert pdfManager != null;
-                pdfManager.createPdfDocument(invoiceObject);
+                pdfManager.createPdfDocument(invoiceObject, codigoAlbaranObtenido);
             }
         });
 

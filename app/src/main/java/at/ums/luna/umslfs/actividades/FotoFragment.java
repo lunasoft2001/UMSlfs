@@ -59,7 +59,7 @@ public class FotoFragment extends Fragment {
 
         Bundle args = getArguments();
         codigoAlbaranObtenido = args.getString("codigoObtenido");
-        nombreFoto = "foto" + codigoAlbaranObtenido + ".png";
+        nombreFoto = "foto" + codigoAlbaranObtenido + ".jpg";
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_foto, container, false);
@@ -150,8 +150,6 @@ public class FotoFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 

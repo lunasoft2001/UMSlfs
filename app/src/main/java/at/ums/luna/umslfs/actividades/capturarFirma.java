@@ -60,7 +60,7 @@ public class capturarFirma extends AppCompatActivity {
 
         try {
             fOut = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG,100,fOut);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fOut);
 
             if (fOut != null){
                 fOut.flush();

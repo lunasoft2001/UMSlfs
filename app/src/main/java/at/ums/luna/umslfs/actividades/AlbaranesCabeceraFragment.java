@@ -3,7 +3,6 @@ package at.ums.luna.umslfs.actividades;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,9 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +21,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 
 import at.ums.luna.umslfs.R;
-import at.ums.luna.umslfs.adaptadores.DatePickerFragment;
 import at.ums.luna.umslfs.adaptadores.DialogoListaCampoClientes;
 import at.ums.luna.umslfs.database.DBHelper;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
@@ -61,6 +57,9 @@ public class AlbaranesCabeceraFragment extends Fragment {
     private String listview_array[];
 
 
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
 
 
@@ -76,8 +75,6 @@ public class AlbaranesCabeceraFragment extends Fragment {
 
         Bundle args = getArguments();
         codigoAlbaranObtenido = args.getString("codigoObtenido");
-
-
 
 
         // Inflate the layout for this fragment
@@ -97,6 +94,20 @@ public class AlbaranesCabeceraFragment extends Fragment {
 
 
         refrescarDatos();
+
+//        //codigo para el datePicker
+//
+//        fecha.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onCreateDialog(DATE_DIALOG_ID);
+//            }
+//        });
+
+
+        //fin codigo para el datePPicker
+
+
 
         //Codigo para el onClickListener
         getView().findViewById(R.id.botonCancelarAlbaran).setOnClickListener(mGlobal_onClickListener);
@@ -286,16 +297,47 @@ public class AlbaranesCabeceraFragment extends Fragment {
 
 
     private void seleccionarFecha(){
-        DatePickerFragment newFragment =  new  DatePickerFragment();
-        newFragment.show(getFragmentManager(),"datePicker");
 
+
+        SimpleDateFormat formatear = new SimpleDateFormat("dd.MM.yyyy");
+        String fechaOriginal = fecha.getText().toString();
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(formatear.parse(fechaOriginal));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        new DatePickerDialog(esteContexto, mDateSetListener,
+                mYear, mMonth,mDay).show();
 
     }
 
 
+    //CODIGO DATEPICKER
 
+    private void updateFecha(){
+        fecha.setText(
+                new StringBuilder()
+                .append(mDay).append(".")
+                .append(mMonth+1).append(".")
+                .append(mYear));
+    }
 
-
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet (DatePicker view, int year,
+                                       int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateFecha();
+                }
+            };
 
 
 }
