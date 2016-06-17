@@ -18,6 +18,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
@@ -40,10 +41,12 @@ import at.ums.luna.umslfs.modelos.DetalleAlbaranes;
 /**
  * Created by luna-aleixos on 14.06.2016.
  */
+
+//TODO maquetar correctamente el PDF
 public class PdfManager {
     private static Context mContext;
     private static final String APP_FOLDER_NAME = "UMSlieferschein";
-    private static final String INVOICES = "Invoices";
+    private static final String INVOICES = "lieferschein";
     private static Font catFont;
     private static Font subFont ;
     private static Font smallBold ;
@@ -88,7 +91,7 @@ public class PdfManager {
         try {
 
             //Creamos las carpetas en nuestro dispositivo, si existen las eliminamos.
-            String fullFileName = createDirectoryAndFileName();
+            String fullFileName = createDirectoryAndFileName(codigoAlbaranActual);
 
             if(fullFileName.length()>0){
                 Document document = new Document();
@@ -96,16 +99,23 @@ public class PdfManager {
 
                 document.open();
 
-                //Creamos los metadatos del alchivo
-                addMetaData(document);
+                //Creamos los metadatos del archivo
+                addMetaData(document, codigoAlbaranActual);
                 //Adicionamos el logo de la empresa
-                addImage(document);
+                //addImageResource(document,R.drawable.ums_logo_completo,200f,200f,400f,600f);
+                //Adicionamos la cabecera y el pie de pagina
+                addImageResource(document,R.drawable.unten,PageSize.A4.getWidth(),200f,0f,0f);
+                addImageResource(document,R.drawable.oben,PageSize.A4.getWidth(),200f,0f,750f);
+                //agregar foto
+                addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",300f,300f,50f,100f);
+                //agregar firma
+                addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",200f,200f,400f,100f);
                 //Creamos el título del documento
                 addTitlePage(document, invoiceObject);
                 //Creamos el contenido en form de tabla del documento
                 addInvoiceContent(document,invoiceObject.listaDetallesAlbaran);
                 //Creamos el total de la factura del documento
-                addInvoiceTotal(document, invoiceObject);
+                //addInvoiceTotal(document, invoiceObject);
 
                 document.close();
 
@@ -117,9 +127,9 @@ public class PdfManager {
         }
     }
 
-    private String createDirectoryAndFileName(){
+    private String createDirectoryAndFileName(String codigoAlbaranActual){
 
-        String FILENAME = "InvoiceSample.pdf";
+        String FILENAME = codigoAlbaranActual + ".pdf";
         String fullFileName ="";
         //Obtenemos el directorio raiz "/sdcard"
         String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
@@ -150,12 +160,12 @@ public class PdfManager {
     }
 
     //PDF library add file metadata function
-    private static void addMetaData(Document document) {
-        document.addTitle("movalink PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("movalink.com");
-        document.addCreator("movalink.com");
+    private static void addMetaData(Document document, String codigoAlbaranActual) {
+        document.addTitle("UMS Lieferschein");
+        document.addSubject("Lieferschein " + codigoAlbaranActual);
+        document.addKeywords("UMS, LIEFERSCHEIN, ");
+        document.addAuthor("ums-service.at");
+        document.addCreator("Juan José Luna");
     }
 
     //Creando el Título y los datos de la Empresa y el Cliente
@@ -163,6 +173,9 @@ public class PdfManager {
             throws DocumentException {
 
         Paragraph preface = new Paragraph();
+
+        //necesario para los espacios en blanco
+        preface.add(new Paragraph(".", catFont));
         // Adicionamos una línea en blanco
         addEmptyLine(preface, 1);
         // Adicionamos el títulos de la Factura y el número
@@ -170,9 +183,11 @@ public class PdfManager {
         preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha, italicFont));
 
         //Adicionamos los datos de la Empresa
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company) + " " + "UMS",smallFont));
-        preface.add(new Paragraph("IndustrieWest..." ,smallFont));
-        preface.add(new Paragraph("0699 122 944 31",smallFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.company),smallBold));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_1) ,smallFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_2) ,smallFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_3) ,smallFont));
+        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_4) ,smallFont));
 
         addEmptyLine(preface, 1);
 
@@ -221,12 +236,13 @@ public class PdfManager {
     private static void createInvoiceTable(Paragraph tableSection, java.util.List<DetalleAlbaranes> invoiceDetails)
             throws DocumentException {
 
-        int TABLE_COLUMNS = 5;
+        int TABLE_COLUMNS = 4;
         //Instaciamos el objeto Pdf Table y creamos una tabla con las columnas definidas en TABLE_COLUMNS
         PdfPTable table = new PdfPTable(TABLE_COLUMNS);// number of table columns
 
         //Definimos el ancho que corresponde a cada una de las 5 columnas
-        float[] columnWidths = new float[]{80f, 200f, 50f, 80f, 100f};
+//        float[] columnWidths = new float[]{80f, 200f, 50f, 80f, 100f};
+        float[] columnWidths = new float[]{30f, 260f, 70f, 70f};
         table.setWidths(columnWidths);
 
         //Definimos el ancho de nuestra tabla en %
@@ -259,11 +275,6 @@ public class PdfManager {
         //Adicionamos el título de la cuarta columna
         table.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.detail_total),smallBold));
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        //Adicionamos el título de la quinta columna
-        table.addCell(cell);
-
         //Creamos la fila de la tabla con las cabeceras
         table.setHeaderRows(1);
 
@@ -284,17 +295,6 @@ public class PdfManager {
     }
 
 
-    //de Juanjo
-    private static Bitmap redimensionarImagen(Bitmap mBitmap, int newWidth){
-
-        float aspectRatio = mBitmap.getWidth()/ (float) mBitmap.getHeight();
-        int width = newWidth;
-        int height = Math.round(width/aspectRatio);
-        Bitmap imagenReducida = Bitmap.createScaledBitmap(mBitmap,width,height,false);
-        return  imagenReducida;
-
-    }
-    //de Juanjo
     public static Bitmap rodarImagen(Bitmap bMap, String nombreFoto) {
 
         String archivo = tempDir + nombreFoto;
@@ -317,7 +317,6 @@ public class PdfManager {
                     break;
             }
 
-            Log.i("JUANJO", "orientation = " + orientation + " - rotate = " + rotate);
             Matrix matrix = new Matrix();
             matrix.postRotate(rotate);
 
@@ -331,14 +330,13 @@ public class PdfManager {
     }
 
     private static void addFotoFirma(Document document, String nombreFotoFirma,
-                                     int ancho, float horizontal, float vertical)
+                                     float ancho, float alto, float horizontal, float vertical)
             throws IOException, DocumentException {
 
         Bitmap bitMap = BitmapFactory.decodeFile(tempDir + nombreFotoFirma);
 
-        Bitmap logoReducido = redimensionarImagen(bitMap,ancho);
 
-        Bitmap logoGirado = rodarImagen(logoReducido, nombreFotoFirma);
+        Bitmap logoGirado = rodarImagen(bitMap, nombreFotoFirma);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         logoGirado.compress(Bitmap.CompressFormat.JPEG, 80, stream);
@@ -346,32 +344,26 @@ public class PdfManager {
         Image image = Image.getInstance(bitMapData);
         //Posicionamos la imagen el el documento
         image.setAbsolutePosition(horizontal, vertical);
+        image.scaleToFit(ancho,alto);
         document.add(image);
     }
 
     //Procedimiento para adicionar una imagen al documento PDF
-    private static void addImage(Document document) throws IOException, DocumentException {
+    private static void addImageResource(Document document, int recurso,
+                                         float ancho, float alto, float horizontal, float vertical)
+            throws IOException, DocumentException {
 
-//        Bitmap bitMap = BitmapFactory.decodeFile(tempDir + "fotoJJ160001.jpg");
-        Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ums_logo_completo);
-
-        Bitmap logoReducido = redimensionarImagen(bitMap,120);
-
-        Bitmap logoGirado = rodarImagen(logoReducido, "test.jpg");
+        Bitmap bitMap = BitmapFactory.decodeResource(mContext.getResources(), recurso);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        logoGirado.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        bitMap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] bitMapData = stream.toByteArray();
         Image image = Image.getInstance(bitMapData);
         //Posicionamos la imagen el el documento
-        image.setAbsolutePosition(400f, 650f);
+        image.setAbsolutePosition(horizontal, vertical);
+        image.scaleToFit(ancho,alto);
         document.add(image);
 
-        //agregar foto
-        addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",240,100f,100f);
-
-        //agregar firma
-        addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",120,400f,0f);
     }
 
 
@@ -380,23 +372,29 @@ public class PdfManager {
         PdfPCell cell = new PdfPCell();
 
         //Adicionamos celdas sin formato ni estilos, solo el valor
-        table.addCell(String.valueOf(invoiceLine.getLinea()));
-        table.addCell(invoiceLine.getDetalle());
+//        table.addCell(String.valueOf(invoiceLine.getLinea()));
 
         //Adicionamos celdas con formato y estilo: (font, align) para el correspondiente valor
-        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getCantidad()),smallFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getLinea()),smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setPadding(5f);
+        table.addCell(cell);
+
+        //Adicionamos celdas con formato y estilo: (font, align) para el correspondiente valor
+        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getDetalle()),smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.addCell(cell);
 
         //Adicionamos celdas con formato y estilo: (font, align)
-        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getTipo()), smallFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getCantidad()), smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
 
         //Adicionamos celdas con formato y estilo: (font, align)
 //        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.total), smallFont));
-//        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-//        table.addCell(cell);
+        cell.setPhrase(new Phrase(String.valueOf(invoiceLine.getTipo()), smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell);
 
     }
 
@@ -475,8 +473,8 @@ public class PdfManager {
     public void sendPdfByEmail(String fileName, String emailTo, String emailCC, Context context){
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Movalink PDF Tutorial email");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Working with PDF files in Android");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "UMS Lieferchein " + codigoAlbaranActual);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Lieber Kunde, wir senden unser anbot.");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailTo});
         emailIntent.putExtra(Intent.EXTRA_BCC, new String[]{emailCC});
 

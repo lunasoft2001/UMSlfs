@@ -7,6 +7,9 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 /**
  * Created by luna-aleixos on 24.05.2016.
  */
+    //TODO Escribir correctamente las llaves de la dB
+    //TODO importar los datos de los clientes y borrar el primer albaran
+
 public class DBHelper extends SQLiteAssetHelper{
     private static int version = 1;
     private static String nombreDb = "ums_movil1.db";

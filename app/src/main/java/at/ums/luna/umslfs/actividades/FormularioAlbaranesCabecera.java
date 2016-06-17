@@ -39,8 +39,8 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
     //PDF
     AlbaranCompleto invoiceObject = new AlbaranCompleto();
-    private String INVOICES_FOLDER = "Invoices";
-    private String FILENAME = "InvoiceSample.pdf";
+    private String INVOICES_FOLDER = "lieferschein";
+    private String FILENAME;
     //Declaramos la clase PdfManager
     private PdfManager pdfManager = null;
 
@@ -65,6 +65,10 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
         numeroAlbaran = (TextView) findViewById(R.id.tvDetalle);
         numeroAlbaran.setText(codigoAlbaranObtenido);
+
+        FILENAME = codigoAlbaranObtenido + ".pdf";
+
+
 
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
 

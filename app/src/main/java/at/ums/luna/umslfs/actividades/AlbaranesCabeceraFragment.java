@@ -326,5 +326,4 @@ public class AlbaranesCabeceraFragment extends Fragment {
                 }
             };
 
-
 }

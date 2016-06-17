@@ -57,15 +57,20 @@
 
     <string name="invoice_number">"Lieferscheinnummer: "</string>
     <string name="invoice_date">"Datum: "</string>
-    <string name="company">"Firma: "</string>
-    <string name="client_title">"Title"</string>
-    <string name="client_name">"Name "</string>
-    <string name="detail_code">"Id "</string>
+    <string name="company">"U.M.S. Dienstleistungs &amp; HandelsGmbH "</string>
+    <string name="company_adresse_1">"Industriestraße West 10"</string>
+    <string name="company_adresse_2">"8501 Lieboch"</string>
+    <string name="company_adresse_3">"Tel: +43 (0) 31 42/22 9 44"</string>
+    <string name="company_adresse_4">"office@ums-service.at"</string>
+    <string name="client_title">"Kunde:"</string>
+    <string name="client_name">""</string>
+    <string name="detail_code">""</string>
     <string name="detail_description">"Detail "</string>
-    <string name="detail_amount">"Summe "</string>
-    <string name="detail_price">"precio--- "</string>
-    <string name="detail_total">"total--- "</string>
+    <string name="detail_amount">"Menge "</string>
+    <string name="detail_price">"E.H. "</string>
+    <string name="detail_total">""</string>
     <string name="pdf_creado">PDF file created successfully</string>
+
 
 
 </resources>
