@@ -3,6 +3,7 @@ package at.ums.luna.umslfs.actividades;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -32,20 +33,18 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
     OperacionesBaseDatos mOperacionesBaseDatos;
 
-
     private String codigoAlbaranObtenido;
     private TextView numeroAlbaran;
+    ImageButton create_pdf;
+    ImageButton read_pdf;
+    ImageButton send_email_pdf;
 
 
-    //PDF
     AlbaranCompleto invoiceObject = new AlbaranCompleto();
     private String INVOICES_FOLDER = "lieferschein";
     private String FILENAME;
-    //Declaramos la clase PdfManager
+
     private PdfManager pdfManager = null;
-
-
-    //fin pdf
 
 
     @Override
@@ -59,7 +58,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         //Obtener el codigoCabecera
         Intent intento = getIntent();
         Bundle bundle = intento.getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             codigoAlbaranObtenido = bundle.getString("codigoAlbaran");
         }
 
@@ -69,7 +68,6 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         FILENAME = codigoAlbaranObtenido + ".pdf";
 
 
-
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
 
 
@@ -77,7 +75,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
         //Creamos una factura desde nuestro código solo para poder generar el documento PDF
         //con esta información
-        createInvoiceObject();
+        //createInvoiceObject();
 
 
         try {
@@ -90,16 +88,23 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
             e.printStackTrace();
         }
 
-        ImageButton create_pdf = (ImageButton) findViewById(R.id.botonCrearPDF);
-        ImageButton read_pdf = (ImageButton)findViewById(R.id.botonVerPDF);
-        ImageButton send_email_pdf = (ImageButton)findViewById(R.id.botonEnviarPDF);
+        create_pdf = (ImageButton) findViewById(R.id.botonCrearPDF);
+        read_pdf = (ImageButton) findViewById(R.id.botonVerPDF);
+        send_email_pdf = (ImageButton) findViewById(R.id.botonEnviarPDF);
+
+        visionBotonesPDF();
+
 
         create_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Create PDF document
+                createInvoiceObject();
                 assert pdfManager != null;
                 pdfManager.createPdfDocument(invoiceObject, codigoAlbaranObtenido);
+                read_pdf.setVisibility(View.VISIBLE);
+                send_email_pdf.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -107,31 +112,27 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 assert pdfManager != null;
-                pdfManager.showPdfFile(INVOICES_FOLDER + File.separator + FILENAME,FormularioAlbaranesCabecera.this);
+                pdfManager.showPdfFile(INVOICES_FOLDER + File.separator + FILENAME, FormularioAlbaranesCabecera.this);
             }
         });
 
         send_email_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailTo ="luna.ums@gmail.com";
-                String emailCC ="juanjolunabowling@gmail.com";
+                String emailTo = "luna.ums@gmail.com";
+                String emailCC = "juanjolunabowling@gmail.com";
                 assert pdfManager != null;
-                pdfManager.sendPdfByEmail(INVOICES_FOLDER + File.separator + FILENAME,emailTo,emailCC, FormularioAlbaranesCabecera.this);
+                pdfManager.sendPdfByEmail(INVOICES_FOLDER + File.separator + FILENAME, emailTo, emailCC, FormularioAlbaranesCabecera.this);
             }
         });
 
-
-        // finaliza el codigo para PDF
-
-
     }
 
-    private class AdaptadorPager extends FragmentPagerAdapter{
+    private class AdaptadorPager extends FragmentPagerAdapter {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     return getString(R.string.CONTENIDOS);
                 case 1:
@@ -145,7 +146,9 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
             }
         }
 
-        public AdaptadorPager(FragmentManager fm) { super(fm);}
+        public AdaptadorPager(FragmentManager fm) {
+            super(fm);
+        }
 
         @Override
         public Fragment getItem(int position) {
@@ -154,7 +157,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
             args.putString("codigoObtenido", codigoAlbaranObtenido);
 
 
-            switch (position){
+            switch (position) {
                 case 0:
                     AlbaranesCabeceraFragment f1 = new AlbaranesCabeceraFragment();
                     f1.setArguments(args);
@@ -191,13 +194,13 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
 
     //Crea el documento importando los datos
-    private void createInvoiceObject(){
+    private void createInvoiceObject() {
 
 
-        CabeceraAlbaranes cabeceraActual =  mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
+        CabeceraAlbaranes cabeceraActual = mOperacionesBaseDatos.obtenerCabeceraAlbaran(codigoAlbaranObtenido);
 
-        invoiceObject.codigoAlbaran= cabeceraActual.getCodigoAlbaran() ;
-        invoiceObject.fecha= cabeceraActual.getFecha();
+        invoiceObject.codigoAlbaran = cabeceraActual.getCodigoAlbaran();
+        invoiceObject.fecha = cabeceraActual.getFecha();
         invoiceObject.idCliente = cabeceraActual.getIdCliente();
         invoiceObject.nombreCliente = cabeceraActual.getNombreCliente();
         invoiceObject.direccionCliente = cabeceraActual.getDireccionCliente();
@@ -210,5 +213,16 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
 
     }
 
+    public void visionBotonesPDF() {
 
+        String tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
+        String archivo = tempDir + INVOICES_FOLDER + File.separator + FILENAME;
+        File fichero = new File(archivo);
+
+        if (fichero.exists()) {
+            read_pdf.setVisibility(View.VISIBLE);
+            send_email_pdf.setVisibility(View.VISIBLE);
+        }
+
+    }
 }

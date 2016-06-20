@@ -10,6 +10,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.itextpdf.text.BaseColor;
@@ -106,10 +107,28 @@ public class PdfManager {
                 //Adicionamos la cabecera y el pie de pagina
                 addImageResource(document,R.drawable.unten,PageSize.A4.getWidth(),200f,0f,0f);
                 addImageResource(document,R.drawable.oben,PageSize.A4.getWidth(),200f,0f,750f);
-                //agregar foto
-                addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",300f,300f,50f,100f);
+
+                String tempDir = Environment.getExternalStorageDirectory() + "/" + APP_FOLDER_NAME + "/";
+
                 //agregar firma
-                addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",200f,200f,400f,100f);
+                String archivoFirma = tempDir + "firma"+codigoAlbaranActual+".jpg";
+                File ficheroFirma = new File(archivoFirma);
+
+                if (ficheroFirma.exists()) {
+                    addFotoFirma(document,"firma"+codigoAlbaranActual+".jpg",200f,200f,400f,100f);
+                }
+
+                //agregar foto
+
+                String archivoFoto = tempDir + "foto"+codigoAlbaranActual+".jpg";
+                File ficheroFoto = new File(archivoFoto);
+
+                if (ficheroFoto.exists()){
+                    addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",300f,300f,50f,100f);
+                }
+
+
+
                 //Creamos el título del documento
                 addTitlePage(document, invoiceObject);
                 //Creamos el contenido en form de tabla del documento
@@ -174,10 +193,8 @@ public class PdfManager {
 
         Paragraph preface = new Paragraph();
 
-        //necesario para los espacios en blanco
-        preface.add(new Paragraph(".", catFont));
         // Adicionamos una línea en blanco
-        addEmptyLine(preface, 1);
+        addEmptyLine(preface, 3);
         // Adicionamos el títulos de la Factura y el número
         preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.codigoAlbaran, catFont));
         preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha, italicFont));

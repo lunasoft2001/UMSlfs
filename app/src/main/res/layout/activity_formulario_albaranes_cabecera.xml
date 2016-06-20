@@ -42,7 +42,8 @@
             android:src="@android:drawable/ic_menu_send"
             android:background="@android:color/transparent"
             android:paddingRight="8dp"
-            android:paddingLeft="8dp"/>
+            android:paddingLeft="8dp"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
             android:paddingRight="8dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/botonEnviarPDF"
-            android:paddingLeft="8dp"/>
+            android:paddingLeft="8dp"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:layout_width="wrap_content"
