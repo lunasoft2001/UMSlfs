@@ -71,11 +71,10 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
 
 
-        // Comienza el codigo para hacer PDF
 
-        //Creamos una factura desde nuestro código solo para poder generar el documento PDF
-        //con esta información
-        //createInvoiceObject();
+
+        //Creamos un albaran desde nuestro código solo para poder generar el documento PDF con esta información
+
 
 
         try {
@@ -119,7 +118,8 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         send_email_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailTo = "luna.ums@gmail.com";
+                createInvoiceObject();
+                String emailTo = invoiceObject.emailCliente;
                 String emailCC = "juanjolunabowling@gmail.com";
                 assert pdfManager != null;
                 pdfManager.sendPdfByEmail(INVOICES_FOLDER + File.separator + FILENAME, emailTo, emailCC, FormularioAlbaranesCabecera.this);
