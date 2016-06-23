@@ -70,7 +70,14 @@
     <string name="detail_price">"E.H. "</string>
     <string name="detail_total">""</string>
     <string name="pdf_creado">PDF file created successfully</string>
-
+    <string name="GUARDAR">GUARDAR</string>
+    <string name="BUSQUEDA">BUSQUEDA</string>
+    <string name="recogida">recogida</string>
+    <string name="entrega">entrega</string>
+    <string name="sieben">sieben</string>
+    <string name="schredden">schredden</string>
+    <string name="umsetzen">umsetzen</string>
+    <string name="anderes">anderes</string>
 
 
 </resources>

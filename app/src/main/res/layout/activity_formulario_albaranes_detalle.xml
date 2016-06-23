@@ -90,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:hint="@string/cantidad"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:selectAllOnFocus="true"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +105,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="@string/tipo"/>
+                    android:hint="@string/tipo"
+                    android:selectAllOnFocus="true"/>
 
             </android.support.design.widget.TextInputLayout>
 

@@ -11,15 +11,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -50,6 +52,10 @@ public class AlbaranesCabeceraFragment extends Fragment {
     TextView idCliente;
     TextView nombreCliente;
     TextView direccionCliente;
+
+    RadioGroup recogida1;
+    RadioGroup recogida2;
+    private String esRecogida;
 
     int textlength = 0;
     private EditText et;
@@ -95,13 +101,19 @@ public class AlbaranesCabeceraFragment extends Fragment {
 
         refrescarDatos();
 
-
         //Codigo para el onClickListener
         getView().findViewById(R.id.botonCancelarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonBorrarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.botonActualizarAlbaran).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.imageButtonElegirCliente).setOnClickListener(mGlobal_onClickListener);
         getView().findViewById(R.id.tvFecha).setOnClickListener(mGlobal_onClickListener);
+
+        getView().findViewById(R.id.radioButtonRecogida).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.radioButtonEntrega).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.radioButtonAnderes).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.radioButtonSieben).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.radioButtonSchredden).setOnClickListener(mGlobal_onClickListener);
+        getView().findViewById(R.id.radioButtonUmsetzen).setOnClickListener(mGlobal_onClickListener);
 
     }
 
@@ -126,7 +138,24 @@ public class AlbaranesCabeceraFragment extends Fragment {
                 case R.id.tvFecha:
                     seleccionarFecha();
                     break;
-
+                case R.id.radioButtonRecogida:
+                    radioGrupoCombinado(v);
+                    break;
+                case R.id.radioButtonEntrega:
+                    radioGrupoCombinado(v);
+                    break;
+                case R.id.radioButtonAnderes:
+                    radioGrupoCombinado(v);
+                    break;
+                case R.id.radioButtonSchredden:
+                    radioGrupoCombinado(v);
+                    break;
+                case R.id.radioButtonSieben:
+                    radioGrupoCombinado(v);
+                    break;
+                case R.id.radioButtonUmsetzen:
+                    radioGrupoCombinado(v);
+                    break;
             }
         }
     };
@@ -140,11 +169,74 @@ public class AlbaranesCabeceraFragment extends Fragment {
         idCliente = (TextView)getView().findViewById(R.id.tvIdCliente);
         nombreCliente = (TextView)getView().findViewById(R.id.tvNombreCliente);
         direccionCliente = (TextView)getView().findViewById(R.id.tvDireccionCliente);
+        recogida1 = (RadioGroup) getView().findViewById(R.id.radioGrupoRecogida1);
+        recogida2 = (RadioGroup) getView().findViewById(R.id.radioGrupoRecogida2);
+
 
         fecha.setText(albaranActual.getFecha().toString());
         idCliente.setText(String.valueOf(albaranActual.getIdCliente()));
         nombreCliente.setText(albaranActual.getNombreCliente());
         direccionCliente.setText(albaranActual.getDireccionCliente());
+
+        esRecogida = albaranActual.getRecogida();
+
+        switch (esRecogida){
+            case "zustellung":
+                recogida1.check(R.id.radioButtonEntrega);
+                break;
+            case "abholung":
+                recogida1.check(R.id.radioButtonRecogida);
+                break;
+            case "anderes":
+                recogida1.check(R.id.radioButtonAnderes);
+                break;
+            case "sieben":
+                recogida2.check(R.id.radioButtonSieben);
+                break;
+            case "schredden":
+                recogida2.check(R.id.radioButtonSchredden);
+                break;
+            case "umsetzen":
+                recogida2.check(R.id.radioButtonUmsetzen);
+                break;
+        }
+
+    }
+
+    public void radioGrupoCombinado(View v) {
+        //Limpia los radioGrupos
+        recogida1.clearCheck();
+        recogida2.clearCheck();
+
+        //Accion asignada manualmente
+        switch (v.getId()){
+            case R.id.radioButtonRecogida:
+                esRecogida = "abholung";
+                recogida1.check(R.id.radioButtonRecogida);
+                break;
+            case R.id.radioButtonEntrega:
+                esRecogida = "zustellung";
+                recogida1.check(R.id.radioButtonEntrega);
+                break;
+            case R.id.radioButtonAnderes:
+                esRecogida = "anderes";
+                recogida1.check(R.id.radioButtonAnderes);
+                break;
+            case R.id.radioButtonSieben:
+                esRecogida = "sieben";
+                recogida2.check(R.id.radioButtonSieben);
+                break;
+            case R.id.radioButtonSchredden:
+                esRecogida = "schredden";
+                recogida2.check(R.id.radioButtonSchredden);
+                break;
+            case R.id.radioButtonUmsetzen:
+                esRecogida = "umsetzen";
+                recogida2.check(R.id.radioButtonUmsetzen);
+                break;
+        }
+        Actualizar();
+
     }
 
 
@@ -183,7 +275,11 @@ public class AlbaranesCabeceraFragment extends Fragment {
         String fechaActual = fecha.getText().toString();
         int idClienteActual= Integer.parseInt(idCliente.getText().toString());
 
-        mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual);
+        RadioButton rbRecogida = (RadioButton) getView().findViewById(R.id.radioButtonRecogida);
+
+
+
+        mOperacionesBaseDatos.actualizarCabeceraAlbaran(idAlbaranActual,fechaActual,idClienteActual, esRecogida);
 
 
     }

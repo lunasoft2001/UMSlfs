@@ -127,8 +127,6 @@ public class PdfManager {
                     addFotoFirma(document,"foto"+codigoAlbaranActual+".jpg",300f,300f,50f,100f);
                 }
 
-
-
                 //Creamos el título del documento
                 addTitlePage(document, invoiceObject);
                 //Creamos el contenido en form de tabla del documento
@@ -154,7 +152,7 @@ public class PdfManager {
         String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
         File pdfDir = new File(extStorageDirectory + File.separator + APP_FOLDER_NAME);
 
-        //Creamos la carpeta "com.movalink.pdf" y la subcarpeta "Invoice"
+        //Creamos las carpetas
         try {
             if (!pdfDir.exists()) {
                 pdfDir.mkdir();
@@ -191,35 +189,149 @@ public class PdfManager {
     private static void addTitlePage(Document document, AlbaranCompleto invoiceObject)
             throws DocumentException {
 
-        Paragraph preface = new Paragraph();
 
-        // Adicionamos una línea en blanco
-        addEmptyLine(preface, 3);
-        // Adicionamos el títulos de la Factura y el número
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.codigoAlbaran, catFont));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha, italicFont));
+        Paragraph parrafoCabecera = new Paragraph();
+        addEmptyLine(parrafoCabecera, 3);
 
-        //Adicionamos los datos de la Empresa
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company),smallBold));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_1) ,smallFont));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_2) ,smallFont));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_3) ,smallFont));
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_4) ,smallFont));
+        parrafoCabecera.add(new Paragraph(mContext.getResources().getString(R.string.client_title), smallBold));
+        addEmptyLine(parrafoCabecera, 1);
 
-        addEmptyLine(preface, 1);
 
-        //Adicionamos los datos del Cliente
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.client_title), smallBold));
+        int TABLE_COLUMNS = 2;
+        //Instaciamos el objeto Pdf Table y creamos una tabla con las columnas definidas en TABLE_COLUMNS
+        PdfPTable tablaCabecera = new PdfPTable(TABLE_COLUMNS);// number of table columns
 
-        preface.add(new Paragraph(mContext.getResources().getString(R.string.client_name) + " " + invoiceObject.nombreCliente,smallFont));
-        preface.add(new Paragraph(invoiceObject.direccionCliente,smallFont));
-        preface.add(new Paragraph(invoiceObject.telefonoCliente ,smallFont));
-        preface.add(new Paragraph(invoiceObject.emailCliente));
+        float[] columnWidths = new float[]{225f,90f};
+        tablaCabecera.setWidths(columnWidths);
 
-        addEmptyLine(preface, 1);
+        //Definimos el ancho de nuestra tabla en %
+        tablaCabecera.setWidthPercentage(100);
 
-        //Adicionamos el párrafo creado al documento
-        document.add(preface);
+
+        //LINEA 1
+        PdfPCell cell = new PdfPCell(new Phrase(invoiceObject.nombreCliente,smallBold));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.company),smallBold));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+
+        //LINEA 2
+        cell = new PdfPCell(new Phrase(invoiceObject.direccionCliente,smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.company_adresse_1)
+        + "\n"+ mContext.getResources().getString(R.string.company_adresse_2),smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        //LINEA 3
+        cell = new PdfPCell(new Phrase(invoiceObject.telefonoCliente,smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.company_adresse_3),smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        //LINEA 4
+        cell = new PdfPCell(new Phrase(invoiceObject.emailCliente,smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.company_adresse_4),smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        //LINEA 5
+        cell = new PdfPCell(new Phrase("",catFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("",catFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        //LINEA 6
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.codigoAlbaran, catFont));
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("", smallFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        //LINEA 7
+        cell = new PdfPCell(new Phrase(invoiceObject.recogida, subFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha, italicFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderColor(BaseColor.WHITE);
+        tablaCabecera.addCell(cell);
+
+
+
+
+        parrafoCabecera.add(tablaCabecera);
+
+        addEmptyLine(parrafoCabecera, 1);
+
+        document.add(parrafoCabecera);
+
+//      EJEMPLO DE PARRAFO
+//        Paragraph preface = new Paragraph();
+//
+//        // Adicionamos una línea en blanco
+//        addEmptyLine(preface, 1);
+//        // Adicionamos el títulos de la Factura y el número
+//        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_number) + invoiceObject.codigoAlbaran, catFont));
+//        preface.add(new Paragraph(mContext.getResources().getString(R.string.invoice_date) + invoiceObject.fecha +
+//                "        " + invoiceObject.recogida, italicFont));
+//
+//
+////        //Adicionamos los datos de la Empresa
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.company),smallBold));
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_1) ,smallFont));
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_2) ,smallFont));
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_3) ,smallFont));
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.company_adresse_4) ,smallFont));
+////
+////        addEmptyLine(preface, 1);
+////
+////        //Adicionamos los datos del Cliente
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.client_title), smallBold));
+////        preface.add(new Paragraph(mContext.getResources().getString(R.string.client_name) + invoiceObject.nombreCliente,smallBold));
+////        preface.add(new Paragraph(invoiceObject.direccionCliente,smallFont));
+////        preface.add(new Paragraph(invoiceObject.telefonoCliente ,smallFont));
+////        preface.add(new Paragraph(invoiceObject.emailCliente,smallFont));
+//
+//        addEmptyLine(preface, 1);
+//
+//        //Adicionamos el párrafo creado al documento
+//        document.add(preface);
+
+
+
+
+
 
         // Si queremos crear una nueva página
         //document.newPage();
@@ -229,12 +341,11 @@ public class PdfManager {
     private static void addInvoiceContent(Document document, List<DetalleAlbaranes> invoiceDetail) throws DocumentException {
 
         Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 1);
+
         // Creamos una tabla con los títulos de las columnas
         createInvoiceTable(paragraph, invoiceDetail);
         // Adicionamos el párrafo al documento
         document.add(paragraph);
-
     }
 
     //Creamos el subtotal y el total de la factura.
@@ -274,6 +385,7 @@ public class PdfManager {
         //Definimos los títulos para cada una de las 5 columnas
         PdfPCell cell = new PdfPCell(new Phrase(mContext.getResources().getString(R.string.detail_code),smallBold));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setBorderColor(BaseColor.WHITE);
         //Adicionamos el título de la primera columna
         table.addCell(cell);
 

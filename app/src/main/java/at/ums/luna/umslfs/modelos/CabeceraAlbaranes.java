@@ -15,6 +15,7 @@ public class CabeceraAlbaranes {
     private int idCliente;
     private String idTrabajador;
     private String codigoAlbaran;
+    private String recogida;
 
     private String nombreCliente;
     private String direccionCliente;
@@ -23,7 +24,7 @@ public class CabeceraAlbaranes {
 
     public CabeceraAlbaranes(int id, String fecha, int idCliente, String idTrabajador,
                              String codigoAlbaran, String nombreCliente,
-                         String direccionCliente, String emailCliente, String telefonoCliente){
+                         String direccionCliente, String emailCliente, String telefonoCliente, String recogida){
         this.id = id;
         this.fecha = fecha;
         this.idCliente = idCliente;
@@ -33,6 +34,7 @@ public class CabeceraAlbaranes {
         this.direccionCliente = direccionCliente;
         this.emailCliente = emailCliente;
         this.telefonoCliente = telefonoCliente;
+        this.recogida = recogida;
     }
 
     public  CabeceraAlbaranes(){
@@ -129,5 +131,13 @@ public class CabeceraAlbaranes {
 
     public void setTelefonoCliente(String telefonoCliente) {
         this.telefonoCliente = telefonoCliente;
+    }
+
+    public String getRecogida() {
+        return recogida;
+    }
+
+    public void setRecogida(String recogida) {
+        this.recogida = recogida;
     }
 }

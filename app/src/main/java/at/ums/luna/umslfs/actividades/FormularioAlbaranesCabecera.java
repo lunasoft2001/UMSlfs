@@ -206,7 +206,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         invoiceObject.direccionCliente = cabeceraActual.getDireccionCliente();
         invoiceObject.telefonoCliente = cabeceraActual.getTelefonoCliente();
         invoiceObject.emailCliente = cabeceraActual.getEmailCliente();
-
+        invoiceObject.recogida = cabeceraActual.getRecogida();
 
         invoiceObject.listaDetallesAlbaran = mOperacionesBaseDatos.verListaDetalleAlbaran(codigoAlbaranObtenido);
 
@@ -225,4 +225,5 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
         }
 
     }
+
 }

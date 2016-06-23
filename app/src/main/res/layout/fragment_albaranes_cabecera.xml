@@ -104,6 +104,73 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/radioGrupoRecogida1"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recogida"
+                    android:id="@+id/radioButtonRecogida"
+                    android:checked="false"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/entrega"
+                    android:id="@+id/radioButtonEntrega"
+                    android:checked="false"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/anderes"
+                    android:id="@+id/radioButtonAnderes"
+                    android:checked="false"
+                    />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/radioGrupoRecogida2"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/schredden"
+                    android:id="@+id/radioButtonSchredden"
+                    android:checked="false"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/umsetzen"
+                    android:id="@+id/radioButtonUmsetzen"
+                    android:checked="false"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sieben"
+                    android:id="@+id/radioButtonSieben"
+                    android:checked="false"
+                    />
+
+            </RadioGroup>
 
 
         </LinearLayout>
