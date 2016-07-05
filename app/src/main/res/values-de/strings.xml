@@ -58,6 +58,11 @@
     <string name="schredden">schredden</string>
     <string name="umsetzen">umsetzen</string>
     <string name="anderes">anderes</string>
+    <string name="summary_prefijo">2 Stellig am anfang des Angebotes</string>
+    <string name="summary_nombre">Nombre con el que se identificará al trabajador</string>
+    <string name="usuario">User</string>
+    <string name="summary_dato_administrador">dato proporcionado por el administrador del programa</string>
+    <string name="password">Passwort</string>
 
 </resources>
 

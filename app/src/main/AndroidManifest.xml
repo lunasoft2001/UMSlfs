@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -23,18 +25,23 @@
         </activity>
         <activity android:name=".actividades.FormularioTrabajador">
         </activity>
-        <activity android:name=".actividades.ListaClientes"
+        <activity
+            android:name=".actividades.ListaClientes"
             android:label="@string/lista_clientes">
         </activity>
-        <activity android:name=".actividades.ListaAlbaranesCabecera"
+        <activity
+            android:name=".actividades.ListaAlbaranesCabecera"
             android:label="@string/lista_albaranes">
         </activity>
         <activity android:name=".actividades.FormularioAlbaranesCabecera">
         </activity>
         <activity android:name=".actividades.capturarFirma">
         </activity>
-        <activity android:name=".actividades.FormularioAlbaranesDetalle"
+        <activity
+            android:name=".actividades.FormularioAlbaranesDetalle"
             android:label="@string/detalle_de_albaran">
+        </activity>
+        <activity android:name=".actividades.Preferencias">
         </activity>
     </application>
 

@@ -10,19 +10,24 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
 import at.ums.luna.umslfs.modelos.DetalleAlbaranes;
 
-public class FormularioAlbaranesDetalle extends AppCompatActivity {
+public class FormularioAlbaranesDetalle extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView codigoAlbaran;
     private TextView linea;
     private TextView detalle;
     private TextView cantidad;
     private TextView tipo;
+    private Spinner spinnerEH;
+    private int changeSpinner = -1;
 
     private String valorCodigoAlbaran;
     private String valorLinea;
@@ -40,6 +45,16 @@ public class FormularioAlbaranesDetalle extends AppCompatActivity {
         detalle = (TextView) findViewById(R.id.detalle);
         cantidad = (TextView) findViewById(R.id.cantidad);
         tipo = (TextView) findViewById(R.id.tipo);
+        spinnerEH = (Spinner) findViewById(R.id.spinnerEH);
+
+        //llenamos el spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.eh_array,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEH.setAdapter(adapter);
+        spinnerEH.setOnItemSelectedListener(this);
+
+        //Obtenemos los valores a mostrar
 
         Intent intento = getIntent();
 
@@ -90,9 +105,6 @@ public class FormularioAlbaranesDetalle extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
 
 
         //Codigo para el onClickListener
@@ -158,5 +170,21 @@ public class FormularioAlbaranesDetalle extends AppCompatActivity {
                 cantidadActual,tipoActual);
 
         finish();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if(changeSpinner != -1) {
+            String valorObtenido = (String) parent.getItemAtPosition(position);
+            tipo.setText(valorObtenido);
+        }
+        changeSpinner = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+
     }
 }
