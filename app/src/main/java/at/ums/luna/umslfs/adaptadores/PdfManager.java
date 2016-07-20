@@ -1,5 +1,6 @@
 package at.ums.luna.umslfs.adaptadores;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -137,6 +138,7 @@ public class PdfManager {
                 document.close();
 
                 Toast.makeText(mContext, R.string.pdf_creado, Toast.LENGTH_SHORT).show();
+
             }
 
         } catch (Exception e) {

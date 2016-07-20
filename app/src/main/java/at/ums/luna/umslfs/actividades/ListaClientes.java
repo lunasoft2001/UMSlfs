@@ -1,10 +1,12 @@
 package at.ums.luna.umslfs.actividades;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,7 +48,10 @@ public class ListaClientes extends AppCompatActivity {
         mOperacionesBaseDatos.abrir();
 
         mClientes = mOperacionesBaseDatos.verListaClientesCompleta();
+//        mClientes = mOperacionesBaseDatos.verListaClientesServidor();
 
+
+        Log.i("JUANJO", "se han obtenido " + mClientes.size() + " registros");
 
         // Obtener el Recycler
         recycler = (RecyclerView) findViewById(R.id.reciclador);
@@ -55,7 +60,6 @@ public class ListaClientes extends AppCompatActivity {
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
-
 
         // Crear un nuevo adaptador
 

@@ -1,5 +1,6 @@
 package at.ums.luna.umslfs.actividades;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -103,6 +104,7 @@ public class FormularioAlbaranesCabecera extends FragmentActivity {
                 pdfManager.createPdfDocument(invoiceObject, codigoAlbaranObtenido);
                 read_pdf.setVisibility(View.VISIBLE);
                 send_email_pdf.setVisibility(View.VISIBLE);
+
 
             }
         });

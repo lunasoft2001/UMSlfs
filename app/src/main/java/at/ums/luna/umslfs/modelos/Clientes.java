@@ -1,5 +1,12 @@
 package at.ums.luna.umslfs.modelos;
 
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.persistence.BackendlessDataQuery;
+
+import at.ums.luna.umslfs.servidor.Future;
+
 /**
  * Created by luna-aleixos on 30.05.2016.
  */
@@ -11,7 +18,7 @@ public class Clientes {
     private String telefono;
     private String email;
 
-    public Clientes(int id, String nombre, String direccion, String telefono, String email){
+    public Clientes(int id, String nombre, String direccion, String telefono, String email) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -19,7 +26,7 @@ public class Clientes {
         this.email = email;
     }
 
-    public Clientes(){
+    public Clientes() {
 
     }
 
@@ -62,4 +69,5 @@ public class Clientes {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

@@ -82,6 +82,9 @@
     <string name="usuario">Usuario</string>
     <string name="summary_dato_administrador">dato proporcionado por el administrador del programa</string>
     <string name="password">Password</string>
+    <string name="usuario_registrado">USUARIO RESGISTRADO</string>
+    <string name="espere">Espere por favor...</string>
+    <string name="pushSenden">Mensajes</string>
 
 
 </resources>

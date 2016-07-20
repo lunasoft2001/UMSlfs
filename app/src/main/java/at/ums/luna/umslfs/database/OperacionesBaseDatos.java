@@ -1,5 +1,6 @@
 package at.ums.luna.umslfs.database;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
+
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
+import com.backendless.persistence.QueryOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -167,6 +175,141 @@ public class OperacionesBaseDatos {
         cerrar();
         return cliente;
     }
+
+
+    public List<Clientes> verListaClientesServidor(){
+        final List<Clientes> listaClientes = new ArrayList<>();
+
+//        Valores para intentar controlar el tiempo de carga
+
+
+        final int PAGESIZE = 100;
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        QueryOptions queryOptions = new QueryOptions();
+        queryOptions.setPageSize(PAGESIZE);
+        queryOptions.addSortByOption("id ASC");
+        dataQuery.setQueryOptions(queryOptions);
+
+
+        Backendless.Persistence.of(Clientes.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Clientes>>() {
+
+            private int offset = 0;
+            private boolean firstResponse =true;
+
+            @Override
+            public void handleResponse(BackendlessCollection<Clientes> clientesObtenidos) {
+
+                if(firstResponse){
+
+                    Log.i("JUANJO", String.valueOf(clientesObtenidos.getTotalObjects()));
+                    firstResponse = false;
+                }
+
+                int size = clientesObtenidos.getCurrentPage().size();
+                Log.i("JUANJO", "Cargados " + size + " clientes en la pagina actual");
+                if (size > 0)
+                {
+                    offset+= clientesObtenidos.getCurrentPage().size();
+                    clientesObtenidos.getPage(PAGESIZE,offset,this);
+
+                    for (Clientes cl : clientesObtenidos.getCurrentPage()){
+                        listaClientes.add(cl);
+                    }
+                    clientesObtenidos.getCurrentPage();
+                } else {
+                    Log.i("JUANJO", "se van a obtener " + listaClientes.size() + " registros");
+                }
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+                Log.i("JUANJO","Error num " + backendlessFault.getCode());
+            }
+        });
+
+        return listaClientes;
+    }
+
+
+
+    public void actualizarClientes(final Context context){
+        abrir();
+
+        final ProgressDialog circuloProgreso=ProgressDialog.show(context,"",context.getString(R.string.espere), true);
+        circuloProgreso.setCancelable(false);
+
+
+        //borra los datos
+        db.delete(DBHelper.Tablas.CLIENTES, null, null);
+
+
+        //actualiza los datos
+
+
+        final int PAGESIZE = 100;
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        QueryOptions queryOptions = new QueryOptions();
+        queryOptions.setPageSize(PAGESIZE);
+        queryOptions.addSortByOption("id ASC");
+        dataQuery.setQueryOptions(queryOptions);
+
+
+        Backendless.Persistence.of(Clientes.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Clientes>>() {
+
+            private int offset = 0;
+            private boolean firstResponse =true;
+            private List<Clientes> listaClientes;
+
+            @Override
+            public void handleResponse(BackendlessCollection<Clientes> clientesObtenidos) {
+
+                if(firstResponse){
+                    Log.i("JUANJO", String.valueOf(clientesObtenidos.getTotalObjects()));
+                    firstResponse = false;
+                }
+
+                int size = clientesObtenidos.getCurrentPage().size();
+                Log.i("JUANJO", "Cargados " + size + " clientes en la pagina actual");
+                if (size > 0)
+                {
+                    offset+= clientesObtenidos.getCurrentPage().size();
+                    clientesObtenidos.getPage(PAGESIZE,offset,this);
+
+                    listaClientes = clientesObtenidos.getCurrentPage();
+                    ContentValues valores = new ContentValues();
+
+                    for(int i= 0;i<size;i++) {
+
+                        valores.put(DBHelper.Clientes.ID, listaClientes.get(i).getId());
+                        valores.put(DBHelper.Clientes.NOMBRE, listaClientes.get(i).getNombre());
+                        valores.put(DBHelper.Clientes.DIRECCION,listaClientes.get(i).getDireccion());
+                        valores.put(DBHelper.Clientes.TELEFONO,listaClientes.get(i).getTelefono());
+                        valores.put(DBHelper.Clientes.EMAIL,listaClientes.get(i).getEmail());
+
+                        db.insert(DBHelper.Tablas.CLIENTES,null,valores);
+
+                        String codigo = String.valueOf(listaClientes.get(i).getId());
+                        String nombre = listaClientes.get(i).getNombre();
+//                        Log.i("JUANJO", codigo + " " + nombre);
+                    }
+                } else{
+                    circuloProgreso.hide();
+                    Toast.makeText(context,"Kunden aktualisiert",Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+
+            }
+        });
+
+    }
+
+
 
 
     /**

@@ -11,6 +11,7 @@ import at.ums.luna.umslfs.R;
 import at.ums.luna.umslfs.database.OperacionesBaseDatos;
 import at.ums.luna.umslfs.modelos.Trabajador;
 
+//TODO: Eliminar la actividad trabajador y sus referencias o modelos si no son necesarios.
 public class FormularioTrabajador extends AppCompatActivity {
 
 

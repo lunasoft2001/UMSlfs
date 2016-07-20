@@ -2,7 +2,7 @@
 
     <string name="app_name">Lieferschein UMS</string>
     <string name="textoUltimoAlbaran">Letzte Lieferschein:</string>
-    <string name="botonClientes">Kundenliste</string>
+    <string name="botonClientes">Kunden aktualisieren</string>
     <string name="fecha">Datum</string>
     <string name="actualizar">Aktualisieren</string>
     <string name="nombre_trabajador">Name Mitarbeiter </string>
@@ -63,6 +63,9 @@
     <string name="usuario">User</string>
     <string name="summary_dato_administrador">dato proporcionado por el administrador del programa</string>
     <string name="password">Passwort</string>
+    <string name="usuario_registrado">Benutzer angemeldet </string>
+    <string name="espere">Bitte warten...</string>
+    <string name="pushSenden">Nachrichten</string>
 
 </resources>
 

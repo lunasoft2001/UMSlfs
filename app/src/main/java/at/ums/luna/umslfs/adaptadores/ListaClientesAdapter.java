@@ -38,7 +38,7 @@ public class ListaClientesAdapter extends RecyclerView.Adapter<ListaClientesAdap
 
     public ListaClientesAdapter(List<Clientes> items){
         this.items = items;
-        ;
+
     }
 
     @Override
