@@ -190,44 +190,31 @@ public class OperacionesBaseDatos {
         queryOptions.addSortByOption("id ASC");
         dataQuery.setQueryOptions(queryOptions);
 
+        //ejecutamos una tarea sync en Backendless para obtener los clientes de la base de datos
 
-        Backendless.Persistence.of(Clientes.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Clientes>>() {
+        int offset = 0;
+        boolean firstResponse =true;
 
-            private int offset = 0;
-            private boolean firstResponse =true;
+        BackendlessCollection<Clientes> clientesObtenidos;
+        clientesObtenidos = Backendless.Persistence.of(Clientes.class).find(dataQuery);
+        Log.i("JUANJO", String.valueOf(clientesObtenidos.getTotalObjects()));
 
-            @Override
-            public void handleResponse(BackendlessCollection<Clientes> clientesObtenidos) {
+        int size = clientesObtenidos.getCurrentPage().size();
 
-                if(firstResponse){
-
-                    Log.i("JUANJO", String.valueOf(clientesObtenidos.getTotalObjects()));
-                    firstResponse = false;
-                }
-
-                int size = clientesObtenidos.getCurrentPage().size();
-                Log.i("JUANJO", "Cargados " + size + " clientes en la pagina actual");
-                if (size > 0)
-                {
-                    offset+= clientesObtenidos.getCurrentPage().size();
-                    clientesObtenidos.getPage(PAGESIZE,offset,this);
-
-                    for (Clientes cl : clientesObtenidos.getCurrentPage()){
-                        listaClientes.add(cl);
-                    }
-                    clientesObtenidos.getCurrentPage();
-                } else {
-                    Log.i("JUANJO", "se van a obtener " + listaClientes.size() + " registros");
-                }
-
+        while (size > 0)
+        {
+            clientesObtenidos = clientesObtenidos.getPage(PAGESIZE,offset);
+            for (Clientes cl : clientesObtenidos.getCurrentPage()){
+                listaClientes.add(cl);
             }
+            Log.i("JUANJO", "Cargados " + size + " clientes en la pagina actual");
+            offset+= size;
+            clientesObtenidos.getCurrentPage();
+            size = clientesObtenidos.getCurrentPage().size();
 
-            @Override
-            public void handleFault(BackendlessFault backendlessFault) {
-                Log.i("JUANJO","Error num " + backendlessFault.getCode());
-            }
-        });
+        }
 
+        Log.i("JUANJO", "DATOS QUE VOY A DEVOLVER " + listaClientes.size() + " registros");
         return listaClientes;
     }
 
@@ -297,7 +284,6 @@ public class OperacionesBaseDatos {
                     circuloProgreso.hide();
                     Toast.makeText(context,"Kunden aktualisiert",Toast.LENGTH_SHORT).show();
                 }
-
 
             }
 

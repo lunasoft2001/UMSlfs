@@ -1,6 +1,7 @@
 package at.ums.luna.umslfs.actividades;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,18 +41,22 @@ public class ListaClientes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_clientes);
 
-
         /*
         Codigo para obtenrer los datos de la DB
          */
         mOperacionesBaseDatos = new OperacionesBaseDatos(this);
         mOperacionesBaseDatos.abrir();
 
-        mClientes = mOperacionesBaseDatos.verListaClientesCompleta();
+//        mClientes = mOperacionesBaseDatos.verListaClientesCompleta();
 //        mClientes = mOperacionesBaseDatos.verListaClientesServidor();
 
 
-        Log.i("JUANJO", "se han obtenido " + mClientes.size() + " registros");
+        // Llamamos la taraea Async
+        new ListClientAsync().execute();
+
+    }
+
+    public void initAdapter(){
 
         // Obtener el Recycler
         recycler = (RecyclerView) findViewById(R.id.reciclador);
@@ -89,4 +94,26 @@ public class ListaClientes extends AppCompatActivity {
         );
 
     }
+
+    private class ListClientAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            //obtenemos el listado de Clientes de Backendless
+            mClientes = mOperacionesBaseDatos.verListaClientesServidor();
+            Log.i("JUANJO", "Se han obtenido " + mClientes.size() +  " registros");
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            //inicializamos el RecyclerView y el adapter con la data obtenida
+            initAdapter();
+        }
+    }
+
+
 }
